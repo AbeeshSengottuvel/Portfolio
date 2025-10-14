@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abeesh S - Automation Tester</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Applying the Inter font to the entire page */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Custom class for the blob shape */
+        .blob-shape {
+            border-radius: 40% 60% 60% 40% / 70% 30% 70% 30%;
+        }
+    </style>
+</head>
+<body class="bg-zinc-100 flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
+
+    <!-- Main portfolio card -->
+    <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl shadow-zinc-300/50 p-6 sm:p-8 md:p-12 overflow-hidden">
+        
+        <!-- Header with Logo and Menu -->
+        <header class="flex justify-between items-center mb-10 md:mb-16">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <h1 class="font-black text-2xl sm:text-3xl text-zinc-800 tracking-wide">ABEESH</h1>
+            </div>
+            <!-- Hamburger Menu Icon -->
+            <button class="w-8 h-8 flex flex-col justify-center items-center space-y-1.5">
+                <span class="block w-full h-0.5 bg-zinc-800 rounded-full"></span>
+                <span class="block w-full h-0.5 bg-zinc-800 rounded-full"></span>
+            </button>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+            
+            <!-- Left Side: Image -->
+            <div class="w-full max-w-sm mx-auto md:max-w-none">
+                <div class="aspect-square bg-zinc-200 blob-shape overflow-hidden shadow-lg animate-morph">
+                    <img src="asset/Abeesh.jpg" 
+                         alt="Portrait of Abeesh S"
+                         class="w-full h-full object-cover"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x500/e2e8f0/334155?text=Abeesh+S';">
+                </div>
+            </div>
+
+            <!-- Right Side: Text Content -->
+            <div class="text-center md:text-left">
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-black text-zinc-900 tracking-wider leading-tight">ABEESH S</h2>
+                <p class="mt-2 text-sm sm:text-base font-semibold text-zinc-500 tracking-[0.2em] uppercase">Automation Tester</p>
+                <p class="mt-6 text-base sm:text-lg text-zinc-600 max-w-md mx-auto md:mx-0">
+                    Automation Tester with 1 year of hands-on experience in testing both UI and APIs. A strong team player committed to delivering high-quality automated testing solutions.
+                </p>
+                
+                <!-- Download CV Button -->
+                <a href="/resume/Abeesh S.pdf" download="Abeesh S.pdf" class="inline-flex items-center justify-center gap-3 mt-10 px-8 py-4 border border-zinc-300 rounded-full text-zinc-700 font-semibold hover:bg-zinc-100 hover:border-zinc-400 transition-all duration-300 group">
+                    <span>Download CV</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-300 group-hover:translate-y-0.5">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </a>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>
+

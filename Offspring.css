@@ -1,0 +1,41 @@
+/* Cool infinite background scrolling animation.
+ * Twitter: @kootoopas
+ */
+
+/* Exo thin font from Google. */
+@import url(https://fonts.googleapis.com/css?family=Exo:100);
+
+/* Background data (Original source: https://subtlepatterns.com/grid-me/) */
+/* Define the values directly in CSS to replace the invalid Sass variables */
+/* $bg-url: "data:image/png;base64,..."; */
+/* $bg-width: 50px; */
+/* $bg-height: 50px; */
+
+/* Animations - Simplified and set to match the background-position values */
+/* We only need one keyframe set, let's use the 'bg-scrolling' structure from your previous working CSS */
+@keyframes bg-scrolling {
+  /* This starts the animation at 100px 50px, and loops back to 0 0 for the scrolling effect */
+  0% {
+    background-position: 100px 50px;
+  }
+}
+
+/* Main styles */
+body {
+  margin-top: 13.5rem;
+
+  color: #999;
+  font: 400 16px/1.5 exo, ubuntu, "segoe ui", helvetica, arial, sans-serif;
+  text-align: center;
+
+  /* Replace $bg-url with the actual data URI */
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAIAAACRXR/mAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAABnSURBVHja7M5RDYAwDEXRDgmvEocnlrQS2SwUFST9uEfBGWs9c97nbGtDcquqiKhOImLs/UpuzVzWEi1atGjRokWLFi1atGjRokWLFi1atGjRokWLFi1af7Ukz8xWp8z8AAAA//8DAJ4LoEAAlL1nAAAAAElFTkSuBBC")
+    repeat 0 0;
+
+  /* Apply the animation */
+  animation: bg-scrolling 1s infinite linear;
+
+  /* Remove vendor prefixes for 'animation-timing-function' as they are no longer necessary for modern browsers
+     and are already included in the 'animation' shorthand if needed.
+     Setting the time to '1s' matches your previous working example. */
+}

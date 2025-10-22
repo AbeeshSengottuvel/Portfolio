@@ -1,81 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Abeesh S - Automation Tester</title>
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="Offspring.css" />
+
     <style>
-        /* Applying the Inter font to the entire page */
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+      /* Applying the Inter font to the entire page */
+      body {
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* Custom class for the blob shape */
+      .blob-shape {
+        border-radius: 40% 60% 60% 40% / 70% 30% 70% 30%;
+      }
+
+      @keyframes swirl-wave {
+        0% {
+          transform: translate(0, 0) rotate(0deg);
+          opacity: 0.8;
+          stroke-dasharray: 10 100;
+          stroke-dashoffset: 0;
         }
-        /* Custom class for the blob shape */
-        .blob-shape {
-            border-radius: 40% 60% 60% 40% / 70% 30% 70% 30%;
+        25% {
+          transform: translate(2px, -1px) rotate(5deg);
         }
+        50% {
+          transform: translate(0, 0) rotate(0deg);
+          opacity: 1;
+          stroke-dasharray: 100 10; /* Max length visible */
+          stroke-dashoffset: 0;
+        }
+        75% {
+          transform: translate(-2px, 1px) rotate(-5deg);
+        }
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+          opacity: 0.8;
+          stroke-dasharray: 10 100; /* Fade out effect */
+          stroke-dashoffset: -100; /* Moves the visible part */
+        }
+      }
+
+      /* Apply animation to each wave path */
+      .wave-path {
+        animation: swirl-wave 6s ease-in-out infinite alternate;
+        transform-origin: center center; /* Ensure rotation is from the center */
+      }
+
+      /* Stagger the animations for a more natural effect */
+      .wave-1 {
+        animation-delay: 0s;
+        stroke: #6b7280; /* Base zinc-600 */
+      }
+      .wave-2 {
+        animation-delay: 0.5s; /* Delay by half a second */
+        stroke: #71717a; /* zinc-700 */
+      }
+      .wave-3 {
+        animation-delay: 1s; /* Delay by one second */
+        stroke: #a1a1aa; /* zinc-400 */
+      }
     </style>
-</head>
-<body class="bg-zinc-100 flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
-
+  </head>
+  <body
+    class="bg-zinc-50 flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8"
+  >
     <!-- Main portfolio card -->
-    <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl shadow-zinc-300/50 p-6 sm:p-8 md:p-12 overflow-hidden">
-        
-        <!-- Header with Logo and Menu -->
-        <header class="flex justify-between items-center mb-10 md:mb-16">
-            <!-- Logo -->
-            <div class="flex items-center space-x-2">
-                <h1 class="font-black text-2xl sm:text-3xl text-zinc-800 tracking-wide">Hi!</h1>
-            </div>
-            <!-- Hamburger Menu Icon -->
-            <button class="w-8 h-8 flex flex-col justify-center items-center space-y-1.5">
+    <div
+      class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl shadow-zinc-300/50 p-6 sm:p-8 md:p-12 overflow-hidden"
+    >
+      <!-- Header with Logo and Menu -->
+      <header class="flex justify-between items-center mb-10 md:mb-16">
+        <!-- Logo -->
+        <!-- <div class="flex items-center space-x-2">
+          <h1
+            class="font-black text-2xl sm:text-3xl text-zinc-800 tracking-wide"
+          >
+            Hi!
+          </h1>
+        </div> -->
+
+        <div class="flex items-center space-x-2">
+          <h1
+            id="greeting-display"
+            class="font-black text-2xl sm:text-3xl text-zinc-800 tracking-wide transition-opacity duration-500"
+            data-fading="false"
+          >
+            Hi!
+          </h1>
+          <span class="relative w-8 h-8 sm:w-10 sm:h-10 overflow-hidden ml-1">
+            <svg
+              id="van-gogh-wave"
+              viewBox="0 0 100 100"
+              class="absolute inset-0 w-full h-full"
+            >
+              <path
+                d="M 10 50 Q 30 20, 50 50 T 90 50"
+                fill="none"
+                stroke="#6b7280"
+                stroke-width="4"
+                stroke-linecap="round"
+                class="wave-path wave-1"
+              ></path>
+              <path
+                d="M 15 60 Q 35 30, 55 60 T 95 60"
+                fill="none"
+                stroke="#8b8b8b"
+                stroke-width="3"
+                stroke-linecap="round"
+                class="wave-path wave-2"
+              ></path>
+              <path
+                d="M 20 70 Q 40 40, 60 70 T 100 70"
+                fill="none"
+                stroke="#a0a0a0"
+                stroke-width="2"
+                stroke-linecap="round"
+                class="wave-path wave-3"
+              ></path>
+            </svg>
+          </span>
+        </div>
+        <!-- Hamburger Menu Icon -->
+        <!-- <button class="w-8 h-8 flex flex-col justify-center items-center space-y-1.5">
                 <span class="block w-full h-0.5 bg-zinc-800 rounded-full"></span>
                 <span class="block w-full h-0.5 bg-zinc-800 rounded-full"></span>
-            </button>
-        </header>
+            </button> -->
+      </header>
 
-        <!-- Main Content Grid -->
-        <main class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
-            
-            <!-- Left Side: Image -->
-            <div class="w-full max-w-sm mx-auto md:max-w-none">
-                <div class="aspect-square bg-zinc-200 blob-shape overflow-hidden shadow-lg animate-morph">
-                    <img src="asset/Abeesh.jpg" 
-                         alt="Portrait of Abeesh S"
-                         class="w-full h-full object-cover"
-                         onerror="this.onerror=null;this.src='https://placehold.co/400x500/e2e8f0/334155?text=Abeesh+S';">
-                </div>
-            </div>
+      <!-- Main Content Grid -->
+      <main
+        class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center"
+      >
+        <!-- Left Side: Image -->
+        <div class="w-full max-w-sm mx-auto md:max-w-none">
+          <div
+            class="aspect-square bg-zinc-200 blob-shape overflow-hidden shadow-lg animate-morph"
+          >
+            <img
+              src="asset/Abeesh.jpg"
+              alt="Portrait of Abeesh S"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null;this.src='https://placehold.co/400x500/e2e8f0/334155?text=Abeesh+S';"
+            />
+          </div>
+        </div>
 
-            <!-- Right Side: Text Content -->
-            <div class="text-center md:text-left">
-                <h2 class="text-4xl sm:text-5xl md:text-6xl font-black text-zinc-900 tracking-wider leading-tight">ABEESH S</h2>
-                <p class="mt-2 text-sm sm:text-base font-semibold text-zinc-500 tracking-[0.2em] uppercase">Automation Tester</p>
-                <p class="mt-6 text-base sm:text-lg text-zinc-600 max-w-md mx-auto md:mx-0">
-                    Automation Tester with 1 year of hands-on experience in testing both UI and APIs. A strong team player committed to delivering high-quality automated testing solutions.
-                </p>
-                
-                <!-- Download CV Button -->
-                <a href="https://abeeshsengottuvel.github.io/Portfolio/resume/Abeesh%20S.pdf" download="Abeesh S.pdf" class="inline-flex items-center justify-center gap-3 mt-10 px-8 py-4 border border-zinc-300 rounded-full text-zinc-700 font-semibold hover:bg-zinc-100 hover:border-zinc-400 transition-all duration-300 group">
-                    <span>Download CV</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-300 group-hover:translate-y-0.5">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                </a>
-            </div>
+        <!-- Right Side: Text Content -->
+        <div class="text-center md:text-left">
+          <h2
+            class="text-4xl sm:text-5xl md:text-6xl font-black text-zinc-900 tracking-wider leading-tight"
+          >
+            ABEESH S
+          </h2>
+          <p
+            class="mt-2 text-sm sm:text-base font-semibold text-zinc-500 tracking-[0.2em] uppercase"
+          >
+            Automation Tester
+          </p>
+          <p
+            class="mt-6 text-base sm:text-lg text-zinc-600 max-w-md mx-auto md:mx-0"
+          >
+            Automation Tester with 1 year of hands-on experience in testing both
+            UI and APIs. A strong team player committed to delivering
+            high-quality automated testing solutions.
+          </p>
 
-        </main>
+          <!-- Download CV Button -->
+          <a
+            href="https://abeeshsengottuvel.github.io/Portfolio/resume/Abeesh%20S.pdf"
+            download="Abeesh S.pdf"
+            class="inline-flex items-center justify-center gap-3 mt-10 px-8 py-4 border border-zinc-300 rounded-full text-zinc-700 font-semibold hover:bg-zinc-100 hover:border-zinc-400 transition-all duration-300 group"
+            target="_blank"
+          >
+            <span>Download CV</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="transition-transform duration-300 group-hover:translate-y-0.5"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </a>
+        </div>
+      </main>
     </div>
+  </body>
+  <script>
+    const greetings = [
+      "Vannakkam!",
+      "Hello!",
+      "Namaste!",
+      "Nomoshkar!",
+      "Namaskar!",
+      "Namaskaram!",
+      "Namaskar!",
+      "Aadaab!",
+      "Namaskara!",
+      "Namaskar!",
+      "Namaskaram!",
+    ];
 
-</body>
+    // Use an event listener to ensure the element exists before trying to find it
+    document.addEventListener("DOMContentLoaded", () => {
+      const displayElement = document.getElementById("greeting-display");
+      let currentIndex = 0;
+      // Total time for the cycle (3.0 seconds)
+      const totalDuration = 5000;
+      // Fade time (0.5 seconds), must match Tailwind's duration-500
+      const fadeTime = 500;
+
+      // Check if the element was actually found
+      if (!displayElement) {
+        console.error("Error: 'greeting-display' element not found.");
+        return;
+      }
+
+      function updateGreeting() {
+        // 1. Fade OUT: Add Tailwind class 'opacity-0'
+        displayElement.classList.add("opacity-0");
+
+        // 2. Wait for the fade-out (0.5s)
+        setTimeout(() => {
+          // 3. Update Text while invisible
+          currentIndex = (currentIndex + 1) % greetings.length;
+          displayElement.textContent = greetings[currentIndex];
+
+          // 4. Fade IN: Remove 'opacity-0'
+          displayElement.classList.remove("opacity-0");
+        }, fadeTime);
+      }
+
+      // Start with the first greeting
+      displayElement.textContent = greetings[currentIndex];
+
+      // Set the recurring timer for the total duration (3s)
+      setInterval(updateGreeting, totalDuration);
+    });
+  </script>
 </html>
-

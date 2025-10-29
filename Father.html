@@ -168,7 +168,7 @@
           <p
             class="mt-2 text-sm sm:text-base font-semibold text-zinc-500 tracking-[0.2em] uppercase"
           >
-            Automation Tester
+            QA Automation Engineer
           </p>
           <p
             class="mt-6 text-base sm:text-lg text-zinc-600 max-w-md mx-auto md:mx-0"
@@ -222,41 +222,84 @@
       "Namaskaram!",
     ];
 
-    // Use an event listener to ensure the element exists before trying to find it
+    // Duration in milliseconds
+    const typingSpeed = 75; // Time per character
+    const pauseTime = 1500; // Time to pause after typing
+    const eraseSpeed = 40; // Time per character for erasing
+
     document.addEventListener("DOMContentLoaded", () => {
       const displayElement = document.getElementById("greeting-display");
       let currentIndex = 0;
-      // Total time for the cycle (3.0 seconds)
-      const totalDuration = 5000;
-      // Fade time (0.5 seconds), must match Tailwind's duration-500
-      const fadeTime = 500;
 
-      // Check if the element was actually found
       if (!displayElement) {
         console.error("Error: 'greeting-display' element not found.");
         return;
       }
 
-      function updateGreeting() {
-        // 1. Fade OUT: Add Tailwind class 'opacity-0'
-        displayElement.classList.add("opacity-0");
+      // --- Typing Logic ---
+      function typeText(text, callback) {
+        let charIndex = 0;
+        // Clear the display immediately before starting the new text
+        displayElement.textContent = "";
 
-        // 2. Wait for the fade-out (0.5s)
-        setTimeout(() => {
-          // 3. Update Text while invisible
-          currentIndex = (currentIndex + 1) % greetings.length;
-          displayElement.textContent = greetings[currentIndex];
-
-          // 4. Fade IN: Remove 'opacity-0'
-          displayElement.classList.remove("opacity-0");
-        }, fadeTime);
+        const typeInterval = setInterval(() => {
+          if (charIndex < text.length) {
+            // Append the next character
+            displayElement.textContent += text.charAt(charIndex);
+            charIndex++;
+          } else {
+            // Stop typing when done
+            clearInterval(typeInterval);
+            if (callback) {
+              callback();
+            }
+          }
+        }, typingSpeed);
       }
 
-      // Start with the first greeting
-      displayElement.textContent = greetings[currentIndex];
+      // --- Erasing Logic ---
+      function eraseText(callback) {
+        let text = displayElement.textContent;
+        let charIndex = text.length - 1;
 
-      // Set the recurring timer for the total duration (3s)
-      setInterval(updateGreeting, totalDuration);
+        const eraseInterval = setInterval(() => {
+          if (charIndex >= 0) {
+            // Remove the last character
+            text = text.substring(0, charIndex);
+            displayElement.textContent = text;
+            charIndex--;
+          } else {
+            // Stop erasing when done
+            clearInterval(eraseInterval);
+            if (callback) {
+              callback();
+            }
+          }
+        }, eraseSpeed);
+      }
+
+      // --- Full Cycle Logic (Type -> Pause -> Erase) ---
+      function cycleGreetings() {
+        // Get the current greeting
+        const currentGreeting = greetings[currentIndex];
+
+        // 1. Type the current greeting
+        typeText(currentGreeting, () => {
+          // 2. Pause after typing
+          setTimeout(() => {
+            // 3. Erase the greeting
+            eraseText(() => {
+              // 4. Move to the next index and repeat the cycle
+              currentIndex = (currentIndex + 1) % greetings.length;
+              // Short delay before typing the next one
+              setTimeout(cycleGreetings, 300);
+            });
+          }, pauseTime);
+        });
+      }
+
+      // Start the whole process
+      cycleGreetings();
     });
   </script>
 </html>

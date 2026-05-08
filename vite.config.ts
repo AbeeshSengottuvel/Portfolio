@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   // IMPORTANT: Replace 'your-repo-name' with your actual GitHub repository name
-  base: '/portfolio/', 
+  base: '/Portfolio/', 
 
   server: {
     port: 3000,

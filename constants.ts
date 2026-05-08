@@ -1,7 +1,7 @@
 import { SkillCategory, Experience, Education } from "./types";
 
 export const RESUME_URL =
-  "https://raw.githubusercontent.com/AbeeshSengottuvel/2025---portfolio/main/Asset/Abeesh%20S.pdf"; // Placeholder - replace with your actual hosted PDF link
+  "https://raw.githubusercontent.com/AbeeshSengottuvel/portfolio/main/Asset/Abeesh%20S.pdf"; // Placeholder - replace with your actual hosted PDF link
 
 export const SOCIAL_LINKS = {
   linkedin: "https://www.linkedin.com/in/abeesh-s-b35271228/",
@@ -136,14 +136,14 @@ export const EXPERIENCES: Experience[] = [
   {
     role: "Quality Assurance (QA) Engineer",
     company: "Cognizant (Client: Humana Inc.)",
-    period: "September 2024 – Present",
+    period: "August 2024 – Present",
     active: true,
     points: [
-      "Automated 110+ test cases across UI (Selenium) and API (REST API), reducing regression testing time by 40%.",
-      "Developed and maintained automation scripts in C# with NUnit, improving framework stability and code reusability.",
-      "Performed functional, regression, and integration testing within Agile sprint cycles to ensure product reliability.",
-      "Partnered with cross-functional teams to identify and resolve issues early, cutting defect leakage by 15%.",
-      "Leveraged QTest for test management and Git for version control; utilized VS Code for debugging and automation development.",
+      "Engineered and automated 110+ robust test cases across UI (Selenium) and API (REST API) layers, successfully reducing regression testing cycles by 40%.",
+      "Architected and maintained scalable automation frameworks in C# utilizing NUnit, significantly enhancing code reusability and execution stability.",
+      "Spearheaded comprehensive functional, regression, and integration testing within fast-paced Agile environments to guarantee high-fidelity product releases.",
+      "Collaborated seamlessly with cross-functional engineering and product teams to proactively identify and resolve critical issues, reducing defect leakage by 15%.",
+      "Orchestrated test management using QTest and maintained version control with Git, streamlining the CI/CD pipeline and automation workflow.",
     ],
   },
 ];

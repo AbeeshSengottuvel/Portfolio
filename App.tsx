@@ -101,6 +101,19 @@ const itemVariants = {
   },
 };
 
+const calculateExperience = () => {
+  const startDate = new Date(2024, 7, 26); // August 26, 2024
+  const now = new Date();
+  
+  let totalMonths = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+  if (now.getDate() < startDate.getDate()) {
+    totalMonths--;
+  }
+
+  const exactYears = (totalMonths / 12).toFixed(1).replace(/\.0$/, '');
+  return `${exactYears} Year${exactYears === '1' ? '' : 's'}`;
+};
+
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -150,7 +163,7 @@ const App: React.FC = () => {
   return (
     <div
       className={`min-h-screen transition-colors duration-500 overflow-x-hidden ${
-        isDarkMode ? "bg-[#0a0c10] text-white" : "bg-[#f0f4f8] text-slate-900"
+        isDarkMode ? "bg-[#0a0c10] text-white" : "bg-white text-slate-900"
       }`}
     >
       <CloudBackground isDarkMode={isDarkMode} />
@@ -306,8 +319,7 @@ const App: React.FC = () => {
                 isDarkMode ? "text-slate-400" : "text-slate-500"
               }`}
             >
-              Quality Assurance Engineer crafting bulletproof software through
-              automation mastery and meticulous manual precision.
+              Quality Assurance Engineer specializing in robust test automation, API engineering, and delivering flawless software experiences.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-4 md:pt-6 w-full sm:w-auto">
               <a
@@ -354,12 +366,12 @@ const App: React.FC = () => {
               } shadow-2xl transition-all hover:scale-[1.02] duration-1000 group`}
             >
               <img
-                src="https://github.com/AbeeshSengottuvel/2025---portfolio/blob/main/Asset/Profile%20pic.jpg?raw=true"
+                src="https://github.com/AbeeshSengottuvel/portfolio/blob/main/Asset/Profile%20pic.jpg?raw=true"
                 alt="Abeesh S"
                 className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-1000"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
-                    "https://github.com/AbeeshSengottuvel/2025---portfolio/blob/main/Asset/Profile%20pic.jpg?raw=true";
+                    "https://github.com/AbeeshSengottuvel/portfolio/blob/main/Asset/Profile%20pic.jpg?raw=true";
                 }}
               />
             </div>
@@ -382,7 +394,7 @@ const App: React.FC = () => {
                   Experience
                 </p>
                 <p className="text-sm md:text-lg lg:text-2xl font-display font-black leading-none">
-                  1.5+ Year
+                  {calculateExperience()}
                 </p>
               </div>
             </motion.div>
@@ -393,7 +405,7 @@ const App: React.FC = () => {
         <section id="skills" className="py-12 md:py-20 scroll-mt-20">
           <div className="mb-8 md:mb-12 text-center md:text-left">
             <h2 className="text-3xl md:text-6xl lg:text-7xl font-display font-black mb-3 md:mb-4 tracking-tighter">
-              Technical Arsenal
+              Technical Expertise
             </h2>
             <div className="w-16 md:w-24 h-1.5 md:h-2 bg-blue-600 rounded-full mx-auto md:mx-0"></div>
           </div>
@@ -547,7 +559,7 @@ const App: React.FC = () => {
         <section id="education" className="py-20 scroll-mt-20">
           <div className="mb-12 md:mb-20 text-center md:text-left">
             <h2 className="text-3xl md:text-7xl font-display font-black mb-4 md:mb-6 tracking-tighter">
-              Academic Path
+              Education & Credentials
             </h2>
             <div className="w-20 md:w-32 h-1.5 md:h-2 bg-blue-600 rounded-full mx-auto md:mx-0"></div>
           </div>
@@ -638,7 +650,7 @@ const App: React.FC = () => {
                   variants={itemVariants}
                   className="text-5xl md:text-7xl lg:text-8xl font-display font-black tracking-tighter leading-none mb-6"
                 >
-                  Let&apos;s Connect
+                  Get In Touch
                 </motion.h2>
                 <motion.p
                   variants={itemVariants}
@@ -647,7 +659,7 @@ const App: React.FC = () => {
                   }`}
                 >
                   Ready to elevate your software quality? Let&apos;s discuss
-                  your next project or professional opportunity.
+                  how I can contribute to your engineering team&apos;s success.
                 </motion.p>
               </div>
 

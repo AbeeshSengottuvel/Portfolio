@@ -38,6 +38,7 @@ import {
   RESUME_URL,
   SOCIAL_LINKS,
 } from "./constants";
+import profilePic from "./Asset/Profile pic.jpeg";
 
 const CloudBackground = ({ isDarkMode }: { isDarkMode: boolean }) => {
   return (
@@ -366,12 +367,11 @@ const App: React.FC = () => {
               } shadow-2xl transition-all hover:scale-[1.02] duration-1000 group`}
             >
               <img
-                src="https://github.com/AbeeshSengottuvel/portfolio/blob/main/Asset/Profile%20pic.jpg?raw=true"
+                src={profilePic}
                 alt="Abeesh S"
                 className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-1000"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src =
-                    "https://github.com/AbeeshSengottuvel/portfolio/blob/main/Asset/Profile%20pic.jpg?raw=true";
+                  (e.target as HTMLImageElement).src = profilePic;
                 }}
               />
             </div>

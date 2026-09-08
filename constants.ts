@@ -1,7 +1,6 @@
 import { SkillCategory, Experience, Education } from "./types";
 
-export const RESUME_URL =
-  "https://raw.githubusercontent.com/AbeeshSengottuvel/portfolio/main/Asset/Abeesh%20S.pdf"; // Placeholder - replace with your actual hosted PDF link
+export const RESUME_URL = `${import.meta.env.BASE_URL}assets/resume.pdf`;
 
 export const SOCIAL_LINKS = {
   linkedin: "https://www.linkedin.com/in/abeesh-s-b35271228/",
@@ -110,23 +109,18 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     skills: [
       {
         name: "Test Case Design & Execution",
-        icon: "https://cdn-icons-png.flaticon.com/256/1055/1055644.png",
       },
       {
         name: "Agile Collaboration",
-        icon: "https://cdn-icons-png.flaticon.com/256/5619/5619211.png",
       },
       {
         name: "Sprint-Based QA Delivery",
-        icon: "https://cdn-icons-png.flaticon.com/256/3239/3239147.png",
       },
       {
         name: "Defect Analysis & Reporting",
-        icon: "https://cdn-icons-png.flaticon.com/256/2906/2906206.png",
       },
       {
         name: "Cross-Functional Teamwork",
-        icon: "https://cdn-icons-png.flaticon.com/256/1189/1189132.png",
       },
     ],
   },

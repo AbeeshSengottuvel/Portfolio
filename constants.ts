@@ -14,6 +14,7 @@ export const EXPERTISE_GROUPS: ExpertiseGroup[] = [
   {
     id: "test-automation",
     title: "Test Automation",
+    plainTitle: "How I test",
     descriptor: "UI and API testing, end to end",
     icon: "build",
     iconAccent: "blue",
@@ -25,22 +26,22 @@ export const EXPERTISE_GROUPS: ExpertiseGroup[] = [
           {
             name: "Selenium",
             icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/selenium/selenium-original.svg",
-            primary: false,
+            primary: true,
           },
           {
             name: "Playwright",
             icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/playwright/playwright-original.svg",
-            primary: false,
+            primary: true,
           },
           {
             name: "Postman",
             icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg",
-            primary: false,
+            primary: true,
           },
           {
             name: "RestSharp",
             icon: "https://restsharp.dev/img/restsharp.png",
-            primary: false,
+            primary: true,
           },
         ],
       },
@@ -69,6 +70,7 @@ export const EXPERTISE_GROUPS: ExpertiseGroup[] = [
   {
     id: "ai-testing",
     title: "AI-Assisted Testing",
+    plainTitle: "How I work faster with AI",
     descriptor: "Faster test writing and debugging",
     icon: "brain",
     iconAccent: "amber",
@@ -97,10 +99,48 @@ export const EXPERTISE_GROUPS: ExpertiseGroup[] = [
   {
     id: "languages-ides",
     title: "Languages & IDEs",
+    plainTitle: "What I write code in",
     descriptor: "Where the test code gets written",
     icon: "code",
     iconAccent: "blue",
     gridClass: "skills-card-span-4",
+    subGroups: [
+      {
+        label: "Languages",
+        skills: [
+          {
+            name: "Java",
+            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+            primary: false,
+          },
+          {
+            name: "C#",
+            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg",
+            primary: false,
+          },
+          {
+            name: "JavaScript",
+            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
+            primary: false,
+          },
+        ],
+      },
+      {
+        label: "IDEs",
+        skills: [
+          {
+            name: "VS Code",
+            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+            primary: false,
+          },
+          {
+            name: "Eclipse",
+            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eclipse/eclipse-original.svg",
+            primary: false,
+          },
+        ],
+      },
+    ],
     skills: [
       {
         name: "Java",
@@ -132,6 +172,7 @@ export const EXPERTISE_GROUPS: ExpertiseGroup[] = [
   {
     id: "cicd-management",
     title: "CI/CD & Test Management",
+    plainTitle: "How I ship and track quality",
     descriptor: "Pipelines, source control, tracking",
     icon: "database",
     iconAccent: "blue",
@@ -172,6 +213,7 @@ export const EXPERTISE_GROUPS: ExpertiseGroup[] = [
   {
     id: "qa-practices",
     title: "QA Practices",
+    plainTitle: "How I work in a team",
     descriptor: "How I work inside sprint teams",
     icon: "groups",
     iconAccent: "blue",

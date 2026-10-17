@@ -16,11 +16,11 @@ interface Ripple {
 const SPRING_CONFIG = {
   leader: { stiffness: 800, damping: 35, mass: 0.2 },
   followers: [
-    { stiffness: 650, damping: 32, mass: 0.35, scale: 0.94, opacity: 0.7, color: "#3b82f6", stroke: "#93c5fd", z: 15 },
-    { stiffness: 540, damping: 29, mass: 0.45, scale: 0.88, opacity: 0.54, color: "#60a5fa", stroke: "#bfdbfe", z: 14 },
-    { stiffness: 450, damping: 27, mass: 0.55, scale: 0.80, opacity: 0.40, color: "#38bdf8", stroke: "#7dd3fc", z: 13 },
-    { stiffness: 370, damping: 25, mass: 0.65, scale: 0.72, opacity: 0.28, color: "#6366f1", stroke: "#a5b4fc", z: 12 },
-    { stiffness: 300, damping: 23, mass: 0.75, scale: 0.64, opacity: 0.18, color: "#818cf8", stroke: "#c7d2fe", z: 11 },
+    { stiffness: 650, damping: 32, mass: 0.35, scale: 0.94, opacity: 0.7, color: "#2563eb", stroke: "#93c5fd", z: 15 },
+    { stiffness: 540, damping: 29, mass: 0.45, scale: 0.88, opacity: 0.54, color: "#3b82f6", stroke: "#bfdbfe", z: 14 },
+    { stiffness: 450, damping: 27, mass: 0.55, scale: 0.80, opacity: 0.40, color: "#60a5fa", stroke: "#dbeafe", z: 13 },
+    { stiffness: 370, damping: 25, mass: 0.65, scale: 0.72, opacity: 0.28, color: "#93c5fd", stroke: "#eff6ff", z: 12 },
+    { stiffness: 300, damping: 23, mass: 0.75, scale: 0.64, opacity: 0.18, color: "#1d4ed8", stroke: "#bfdbfe", z: 11 },
   ],
 };
 
@@ -154,7 +154,7 @@ export const FigmaCursor: React.FC = () => {
             onAnimationComplete={() =>
               setRipples((prev) => prev.filter((item) => item.id !== r.id))
             }
-            className="pointer-events-none fixed w-8 h-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.6)]"
+            className="pointer-events-none fixed w-8 h-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-blue-400 shadow-[0_0_12px_rgba(37,99,235,0.6)]"
             style={{ left: r.x, top: r.y }}
           />
         ))}
@@ -196,7 +196,7 @@ export const FigmaCursor: React.FC = () => {
               layoutId="cursor-glow"
               initial={{ scale: 0.6, opacity: 0 }}
               animate={{ scale: 1.4, opacity: 0.35 }}
-              className="absolute inset-0 bg-blue-500 rounded-full blur-md"
+              className="absolute inset-0 bg-[#2563eb] rounded-full blur-md"
             />
           )}
 

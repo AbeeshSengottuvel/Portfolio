@@ -1,51 +1,47 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Wrench, Brain, Code, Database, Users } from "lucide-react";
+import { motion } from "framer-motion";
+import { Wrench, Brain, Code2, Database, Users } from "lucide-react";
 import { ExpertiseGroup, SkillItem } from "./types";
 import { EXPERTISE_GROUPS } from "./constants";
 import "./TechnicalExpertise.css";
 
-const HEADER_ICONS: Record<
-  string,
-  React.ComponentType<{ size?: number; className?: string }>
-> = {
-  build: Wrench,
-  brain: Brain,
-  code: Code,
-  database: Database,
-  groups: Users,
+/**
+ * Optical icon helper for specialized scaling
+ */
+const getOptIconClass = (name: string): string => {
+  if (name === "Java") return "expertise-icon-opt-java";
+  if (name === "Maven") return "expertise-icon-opt-maven";
+  if (name === "Windsurf") return "expertise-icon-opt-windsurf";
+  if (name === "GitHub" || name === "GitHub Copilot") return "expertise-icon-opt-github";
+  return "";
 };
 
 /**
- * Chip Component
- * Flat fill rgba(15,23,42,.04), inset hairline, height 36px, padding 0 14px 0 10px,
- * radius 10px, gap 8px, text 15px/500, non-interactive (no hover/pointer).
- * Decorative icon with alt="". Optional primary flag with weight 600 and blue dot.
+ * Clean, Quiet Tool Item
+ * 100% sharp full-color logo at rest with subtle 200ms scale lift on hover.
+ * Zero bulky borders or chip boxes.
  */
-export const Chip: React.FC<{ item: SkillItem }> = ({ item }) => {
-  const isJava = item.name === "Java";
-  const isMaven = item.name === "Maven";
-  const isWindsurf = item.name === "Windsurf";
-  const optClass = isJava
-    ? "skills-icon-opt-java"
-    : isMaven
-    ? "skills-icon-opt-maven"
-    : isWindsurf
-    ? "skills-icon-opt-windsurf"
-    : "";
+export const ToolItem: React.FC<{
+  item: SkillItem;
+}> = ({ item }) => {
+  const isPrimary = Boolean(item.primary);
+  const optClass = getOptIconClass(item.name);
 
   return (
-    <span
-      className={`skills-chip ${item.primary ? "skills-chip-primary" : ""}`}
+    <motion.span
+      whileHover={{ y: -2, scale: 1.05 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ type: "spring", stiffness: 450, damping: 22 }}
+      className={`expertise-tool-item ${
+        isPrimary ? "expertise-tool-primary" : ""
+      }`}
     >
-      {item.primary && (
-        <span className="skills-primary-dot" aria-hidden="true" />
-      )}
       {item.icon && (
-        <span className="skills-icon-box" aria-hidden="true">
+        <span className="expertise-icon-frame" aria-hidden="true">
           <img
             src={item.icon}
             alt=""
-            className={`skills-icon ${optClass}`}
+            className={`expertise-icon ${optClass}`}
             loading="lazy"
             onError={(e) => {
               (e.target as HTMLElement).style.display = "none";
@@ -53,114 +49,8 @@ export const Chip: React.FC<{ item: SkillItem }> = ({ item }) => {
           />
         </span>
       )}
-      <span className="skills-chip-name">{item.name}</span>
-    </span>
-  );
-};
-
-/**
- * Card Component
- * Semantic <article> with 44px icon tile, single-line h3, and single-line descriptor.
- * Content starts at the exact same vertical baseline across all cards in each row.
- */
-export const Card: React.FC<{ group: ExpertiseGroup }> = ({ group }) => {
-  const IconComponent = HEADER_ICONS[group.icon] || Wrench;
-  const isAmberTile = group.iconAccent === "amber";
-  const isAiCard = group.id === "ai-testing";
-
-  return (
-    <article className="skills-card">
-      {/* Shared Baseline Header: exactly 44px tall */}
-      <div className="skills-card-header">
-        <div
-          className={`skills-icon-tile ${
-            isAmberTile ? "skills-icon-tile-amber" : "skills-icon-tile-blue"
-          }`}
-          aria-hidden="true"
-        >
-          <IconComponent size={22} />
-        </div>
-        <div className="skills-header-content">
-          <h3 className="skills-card-title">{group.title}</h3>
-          <p className="skills-card-descriptor">{group.descriptor}</p>
-        </div>
-      </div>
-
-      {/* Card Content */}
-      <div className="skills-card-body">
-        {/* Layout 1: AI Card Stacked Full-Width Rows (56px tall, 12px radius) */}
-        {isAiCard && group.skills && (
-          <ul className="skills-ai-stack">
-            {group.skills.map((skill) => (
-              <li key={skill.name} className="skills-ai-row">
-                {skill.primary && (
-                  <span className="skills-primary-dot" aria-hidden="true" />
-                )}
-                {skill.icon && (
-                  <span className="skills-icon-box" aria-hidden="true">
-                    <img
-                      src={skill.icon}
-                      alt=""
-                      className={`skills-icon ${
-                        skill.name === "Windsurf" ? "skills-icon-opt-windsurf" : ""
-                      }`}
-                      loading="lazy"
-                      onError={(e) => {
-                        (e.target as HTMLElement).style.display = "none";
-                      }}
-                    />
-                  </span>
-                )}
-                <div className="skills-ai-text">
-                  <span className="skills-ai-name">{skill.name}</span>
-                  {skill.caption && (
-                    <span className="skills-ai-caption">{skill.caption}</span>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {/* Layout 2: Sub-groups (UI & API / Frameworks & runners) */}
-        {!isAiCard &&
-          group.subGroups &&
-          group.subGroups.map((subGroup) => (
-            <div key={subGroup.label} className="skills-subgroup">
-              <h4 className="skills-subgroup-title">{subGroup.label}</h4>
-              <ul className="skills-chip-list">
-                {subGroup.skills.map((skill) => (
-                  <li key={skill.name}>
-                    <Chip item={skill} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-
-        {/* Layout 3: Standard chip list (Languages & IDEs, CI/CD) */}
-        {!isAiCard && !group.subGroups && group.skills && (
-          <ul className="skills-chip-list">
-            {group.skills.map((skill) => (
-              <li key={skill.name}>
-                <Chip item={skill} />
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {/* Layout 4: QA Practices plain list with 6px blue dots */}
-        {!isAiCard && group.practices && (
-          <ul className="skills-practice-list">
-            {group.practices.map((practice) => (
-              <li key={practice} className="skills-practice-item">
-                {practice}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </article>
+      <span className="expertise-tool-name">{item.name}</span>
+    </motion.span>
   );
 };
 
@@ -170,7 +60,10 @@ interface TechnicalExpertiseProps {
 
 /**
  * TechnicalExpertise Section
- * Apple-grade refinement with 8pt spacing, entrance animation, and strict baseline alignment.
+ * Redesigned with Apple Human Interface precision and Core Animation responsiveness.
+ *
+ * Scannable in 5 seconds by non-technical recruiters via plain-English headings,
+ * while retaining all technical tools with quiet, handcrafted elegance.
  */
 export const TechnicalExpertise: React.FC<TechnicalExpertiseProps> = ({
   groups = EXPERTISE_GROUPS,
@@ -179,7 +72,6 @@ export const TechnicalExpertise: React.FC<TechnicalExpertiseProps> = ({
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    // Immediate fallback if IntersectionObserver is unsupported or reduced motion is preferred
     if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
       setIsVisible(true);
       return;
@@ -199,7 +91,7 @@ export const TechnicalExpertise: React.FC<TechnicalExpertiseProps> = ({
           observer.disconnect();
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
 
     const currentElem = sectionRef.current;
@@ -215,39 +107,334 @@ export const TechnicalExpertise: React.FC<TechnicalExpertiseProps> = ({
     };
   }, []);
 
+  // Separate the Lead Group (Test Automation) from Secondary Groups
+  const leadGroup =
+    groups.find((g) => g.id === "test-automation") || groups[0];
+  const aiGroup = groups.find((g) => g.id === "ai-testing");
+  const languagesGroup = groups.find((g) => g.id === "languages-ides");
+  const cicdGroup = groups.find((g) => g.id === "cicd-management");
+  const practicesGroup = groups.find((g) => g.id === "qa-practices");
+
   return (
     <section
       id="skills"
       ref={sectionRef}
-      className={`skills-section ${isVisible ? "is-visible" : ""}`}
+      className={`expertise-section ${isVisible ? "is-visible" : ""}`}
     >
-      <div className="skills-container">
-        {/* Section Heading & Blue Accent Bar (64x4px, 20px below) */}
-        <div className="skills-heading-container">
-          <h2 className="skills-heading">Technical Expertise</h2>
-          <div className="skills-accent-bar" aria-hidden="true" />
+      <div className="expertise-container">
+        {/* Main Section Header */}
+        <div className="expertise-heading-container">
+          <div className="overflow-hidden py-1">
+            <motion.h2
+              initial={{ y: 30, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{
+                duration: 0.7,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="expertise-heading"
+            >
+              Technical Expertise
+            </motion.h2>
+          </div>
+
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="expertise-accent-bar origin-left"
+            aria-hidden="true"
+          />
         </div>
 
-        {/* 12-Column Responsive Grid */}
-        <div className="skills-grid">
-          {groups.map((group, index) => {
-            const customResponsiveClass =
-              group.id === "ai-testing"
-                ? "skills-card-ai"
-                : group.id === "qa-practices"
-                ? "skills-card-practices"
-                : "";
+        {/* Editorial Architecture with Visible Hairlines */}
+        <div className="expertise-editorial-layout">
+          {/* LEAD GROUP: How I test (Test Automation) */}
+          {leadGroup && (
+            <div className="expertise-lead-group">
+              <div className="expertise-lead-grid">
+                {/* Header: Plain English First, Technical Category Subtitle + Animated Tile */}
+                <div className="expertise-group-header">
+                  <div className="flex items-center gap-3 mb-1.5">
+                    <motion.div
+                      whileHover={{ scale: 1.18, rotate: 6 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 450,
+                        damping: 18,
+                      }}
+                      className="expertise-group-icon-tile"
+                      aria-hidden="true"
+                    >
+                      <Wrench size={18} />
+                    </motion.div>
+                    <h3 className="expertise-plain-title expertise-lead-title">
+                      {leadGroup.plainTitle || "How I test"}
+                    </h3>
+                  </div>
+                  <span className="expertise-technical-subtitle">
+                    {leadGroup.title}
+                  </span>
+                  <p className="expertise-descriptor">{leadGroup.descriptor}</p>
+                </div>
 
-            return (
-              <div
-                key={group.id}
-                className={`${group.gridClass} ${customResponsiveClass} skills-card-wrapper`}
-                style={{ "--card-index": index } as React.CSSProperties}
-              >
-                <Card group={group} />
+                {/* Content: UI & API (Strongest Tools) + Frameworks */}
+                <div className="expertise-lead-content">
+                  {leadGroup.subGroups?.map((subGroup, idx) => (
+                    <div
+                      key={subGroup.label}
+                      className={`expertise-subgroup ${
+                        idx > 0 ? "expertise-subgroup-lead-divider" : ""
+                      }`}
+                    >
+                      <span className="expertise-subgroup-label">
+                        {subGroup.label}
+                      </span>
+                      <ul className="expertise-tool-flow">
+                        {subGroup.skills.map((skill) => (
+                          <li key={skill.name}>
+                            <ToolItem item={skill} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
               </div>
-            );
-          })}
+            </div>
+          )}
+
+          {/* SECONDARY 2-COLUMN GRID */}
+          <div className="expertise-secondary-grid">
+            {/* Cell 1: How I work faster with AI */}
+            {aiGroup && (
+              <div className="expertise-group-cell">
+                <div className="expertise-group-header">
+                  <div className="flex items-center gap-3 mb-1.5">
+                    <motion.div
+                      whileHover={{ scale: 1.18, rotate: 6 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 450,
+                        damping: 18,
+                      }}
+                      className="expertise-group-icon-tile"
+                      aria-hidden="true"
+                    >
+                      <Brain size={18} />
+                    </motion.div>
+                    <h3 className="expertise-plain-title">
+                      {aiGroup.plainTitle || "How I work faster with AI"}
+                    </h3>
+                  </div>
+                  <span className="expertise-technical-subtitle expertise-secondary-subtitle">
+                    {aiGroup.title}
+                  </span>
+                  <p className="expertise-descriptor">{aiGroup.descriptor}</p>
+                </div>
+
+                <div className="expertise-cell-body">
+                  <ul className="expertise-ai-list">
+                    {aiGroup.skills?.map((tool) => {
+                      const optClass = getOptIconClass(tool.name);
+                      return (
+                        <li key={tool.name} className="expertise-ai-row">
+                          <span className="expertise-ai-main">
+                            {tool.icon && (
+                              <span
+                                className="expertise-icon-frame"
+                                aria-hidden="true"
+                              >
+                                <img
+                                  src={tool.icon}
+                                  alt=""
+                                  className={`expertise-icon ${optClass}`}
+                                  loading="lazy"
+                                  onError={(e) => {
+                                    (
+                                      e.target as HTMLElement
+                                    ).style.display = "none";
+                                  }}
+                                />
+                              </span>
+                            )}
+                            <span className="expertise-ai-name">
+                              {tool.name}
+                            </span>
+                          </span>
+                          {tool.caption && (
+                            <span className="expertise-ai-caption">
+                              {tool.caption}
+                            </span>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {/* Cell 2: What I write code in (Languages & IDEs - Separated) */}
+            {languagesGroup && (
+              <div className="expertise-group-cell">
+                <div className="expertise-group-header">
+                  <div className="flex items-center gap-3 mb-1.5">
+                    <motion.div
+                      whileHover={{ scale: 1.18, rotate: 6 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 450,
+                        damping: 18,
+                      }}
+                      className="expertise-group-icon-tile"
+                      aria-hidden="true"
+                    >
+                      <Code2 size={18} />
+                    </motion.div>
+                    <h3 className="expertise-plain-title">
+                      {languagesGroup.plainTitle || "What I write code in"}
+                    </h3>
+                  </div>
+                  <span className="expertise-technical-subtitle expertise-secondary-subtitle">
+                    {languagesGroup.title}
+                  </span>
+                  <p className="expertise-descriptor">
+                    {languagesGroup.descriptor}
+                  </p>
+                </div>
+
+                <div className="expertise-cell-body">
+                  {languagesGroup.subGroups ? (
+                    <div className="expertise-cell-subgroups">
+                      {languagesGroup.subGroups.map((subGroup, idx) => (
+                        <div
+                          key={subGroup.label}
+                          className={`expertise-subgroup ${
+                            idx > 0 ? "expertise-subgroup-divider" : ""
+                          }`}
+                        >
+                          <span className="expertise-subgroup-label">
+                            {subGroup.label}
+                          </span>
+                          <ul className="expertise-tool-flow">
+                            {subGroup.skills.map((tool) => (
+                              <li key={tool.name}>
+                                <ToolItem item={tool} />
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <ul className="expertise-tool-flow">
+                      {languagesGroup.skills?.map((tool) => (
+                        <li key={tool.name}>
+                          <ToolItem item={tool} />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Cell 3: How I ship and track quality (CI/CD & Test Management) */}
+            {cicdGroup && (
+              <div className="expertise-group-cell expertise-cell-border-top">
+                <div className="expertise-group-header">
+                  <div className="flex items-center gap-3 mb-1.5">
+                    <motion.div
+                      whileHover={{ scale: 1.18, rotate: 6 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 450,
+                        damping: 18,
+                      }}
+                      className="expertise-group-icon-tile"
+                      aria-hidden="true"
+                    >
+                      <Database size={18} />
+                    </motion.div>
+                    <h3 className="expertise-plain-title">
+                      {cicdGroup.plainTitle || "How I ship and track quality"}
+                    </h3>
+                  </div>
+                  <span className="expertise-technical-subtitle expertise-secondary-subtitle">
+                    {cicdGroup.title}
+                  </span>
+                  <p className="expertise-descriptor">
+                    {cicdGroup.descriptor}
+                  </p>
+                </div>
+
+                <div className="expertise-cell-body">
+                  <ul className="expertise-tool-flow">
+                    {cicdGroup.skills?.map((tool) => (
+                      <li key={tool.name}>
+                        <ToolItem item={tool} />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {/* Cell 4: How I work in a team (QA Practices) */}
+            {practicesGroup && (
+              <div className="expertise-group-cell expertise-cell-border-top">
+                <div className="expertise-group-header">
+                  <div className="flex items-center gap-3 mb-1.5">
+                    <motion.div
+                      whileHover={{ scale: 1.18, rotate: 6 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 450,
+                        damping: 18,
+                      }}
+                      className="expertise-group-icon-tile"
+                      aria-hidden="true"
+                    >
+                      <Users size={18} />
+                    </motion.div>
+                    <h3 className="expertise-plain-title">
+                      {practicesGroup.plainTitle || "How I work in a team"}
+                    </h3>
+                  </div>
+                  <span className="expertise-technical-subtitle expertise-secondary-subtitle">
+                    {practicesGroup.title}
+                  </span>
+                  <p className="expertise-descriptor">
+                    {practicesGroup.descriptor}
+                  </p>
+                </div>
+
+                <div className="expertise-cell-body">
+                  <ul className="expertise-practice-list">
+                    {practicesGroup.practices?.map((practice) => (
+                      <li key={practice} className="expertise-practice-item">
+                        <span
+                          className="expertise-practice-dash"
+                          aria-hidden="true"
+                        >
+                          ―
+                        </span>
+                        <span>{practice}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>

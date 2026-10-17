@@ -105,7 +105,7 @@ export const ImpactSection: React.FC<{ isDarkMode?: boolean }> = () => {
     <section
       ref={sectionRef}
       id="impact"
-      className="impact-root py-20 md:py-32 scroll-mt-20"
+      className="impact-root py-20 md:py-28 scroll-mt-20"
       aria-label="Impact and Performance Metrics"
     >
       <style>{`
@@ -113,15 +113,15 @@ export const ImpactSection: React.FC<{ isDarkMode?: boolean }> = () => {
           --impact-bg-subtle: #FAFAF9;
           --impact-text-primary: #0F172A;
           --impact-text-secondary: #64748B;
-          --impact-hairline: #E5E7EB;
-          --impact-accent: #1D4ED8; /* Unified Royal Blue Accent matching site identity */
+          --impact-hairline: #CBD5E1;
+          --impact-accent: #2563eb;
         }
         .dark {
           --impact-bg-subtle: #0B0F14;
           --impact-text-primary: #F8FAFC;
           --impact-text-secondary: #94A3B8;
-          --impact-hairline: #1E293B;
-          --impact-accent: #60A5FA; /* Accessible high-contrast blue for dark surface */
+          --impact-hairline: rgba(255, 255, 255, 0.14);
+          --impact-accent: #60a5fa;
         }
 
         .impact-cubic {
@@ -130,18 +130,20 @@ export const ImpactSection: React.FC<{ isDarkMode?: boolean }> = () => {
       `}</style>
 
       {/* Section Header */}
-      <div className="mb-14 md:mb-20">
-        <h2
-          className={`text-3xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-[var(--impact-text-primary)] impact-cubic transition-all duration-[600ms] ${
-            isVisible || prefersReducedMotion
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-4"
-          }`}
-        >
-          Impact by the Numbers
-        </h2>
+      <div className="mb-8 md:mb-12 text-left">
+        <div className="overflow-hidden py-1">
+          <h2
+            className={`text-3xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-slate-900 dark:text-white impact-cubic transition-all duration-[600ms] ${
+              isVisible || prefersReducedMotion
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          >
+            Impact by the Numbers
+          </h2>
+        </div>
         <div
-          className={`h-1 bg-[var(--impact-accent)] origin-left impact-cubic transition-transform duration-[700ms] delay-[150ms] mt-4 w-14 md:w-20 ${
+          className={`h-1 bg-[#2563eb] origin-left rounded-full impact-cubic transition-transform duration-[700ms] delay-[150ms] mt-3 w-16 md:w-20 ${
             isVisible || prefersReducedMotion ? "scale-x-100" : "scale-x-0"
           }`}
         />
@@ -153,12 +155,12 @@ export const ImpactSection: React.FC<{ isDarkMode?: boolean }> = () => {
           "310 plus Automated Test Assets, 60 percent Faster Regression Turnaround, less than 5 percent Defect Leakage Rate."}
       </div>
 
-      {/* Editorial Hairline Grid Layout */}
-      <div className="border-t border-b border-[var(--impact-hairline)] grid grid-cols-1 md:grid-cols-12">
-        {/* STAT 1: Anchor Stat (Asymmetric Visual Weight: 5 Columns) */}
+      {/* Editorial Hairline Grid Layout (3 Equal-Sized Columns) */}
+      <div className="border-t border-b border-[var(--impact-hairline)] grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[var(--impact-hairline)]">
+        {/* STAT 1: Anchor Stat (1 of 3 Equal Columns) */}
         <div
           style={{ transitionDelay: prefersReducedMotion ? "0ms" : "0ms" }}
-          className={`md:col-span-5 py-8 md:py-12 md:pr-10 md:border-r border-[var(--impact-hairline)] impact-cubic transition-all duration-[700ms] group cursor-default ${
+          className={`py-8 md:py-12 md:pr-8 impact-cubic transition-all duration-[700ms] group cursor-default ${
             isVisible || prefersReducedMotion
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-6"
@@ -168,7 +170,7 @@ export const ImpactSection: React.FC<{ isDarkMode?: boolean }> = () => {
             <div>
               {/* Hero Tabular Figure with Single Accent Allocation */}
               <div
-                className="text-6xl md:text-7xl lg:text-8xl font-sans font-extrabold tracking-tight tabular-nums leading-none text-[var(--impact-accent)] mb-4 will-change-transform"
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-sans font-extrabold tracking-tight tabular-nums leading-none text-[var(--impact-accent)] mb-4 will-change-transform"
                 aria-hidden="true"
               >
                 <span>{stat1}</span>
@@ -187,7 +189,7 @@ export const ImpactSection: React.FC<{ isDarkMode?: boolean }> = () => {
               </h3>
 
               {/* Muted Editorial Description with Tech Stack */}
-              <p className="text-sm md:text-base text-[var(--impact-text-secondary)] leading-relaxed max-w-sm">
+              <p className="text-sm md:text-base text-[var(--impact-text-secondary)] leading-relaxed">
                 Production-grade end-to-end and API suites engineered across{" "}
                 <span className="text-[var(--impact-text-primary)] font-medium">
                   Playwright
@@ -205,14 +207,14 @@ export const ImpactSection: React.FC<{ isDarkMode?: boolean }> = () => {
             </div>
 
             {/* Micro hairline hover indicator */}
-            <div className="w-6 h-0.5 bg-[var(--impact-accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-6" />
+            <div className="w-8 h-0.5 bg-[#2563eb] opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-6" />
           </div>
         </div>
 
-        {/* STAT 2: Velocity Stat (3.5 Columns) */}
+        {/* STAT 2: Velocity Stat (2 of 3 Equal Columns) */}
         <div
           style={{ transitionDelay: prefersReducedMotion ? "0ms" : "120ms" }}
-          className={`md:col-span-3 md:col-start-6 py-8 md:py-12 md:px-8 border-t md:border-t-0 md:border-r border-[var(--impact-hairline)] impact-cubic transition-all duration-[700ms] group cursor-default ${
+          className={`py-8 md:py-12 md:px-8 impact-cubic transition-all duration-[700ms] group cursor-default ${
             isVisible || prefersReducedMotion
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-6"
@@ -222,7 +224,7 @@ export const ImpactSection: React.FC<{ isDarkMode?: boolean }> = () => {
             <div>
               {/* Tabular Metric (Neutral High Contrast) */}
               <div
-                className="text-5xl md:text-6xl font-sans font-extrabold tracking-tight tabular-nums leading-none text-[var(--impact-text-primary)] mb-4 will-change-transform"
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-sans font-extrabold tracking-tight tabular-nums leading-none text-[var(--impact-text-primary)] mb-4 will-change-transform"
                 aria-hidden="true"
               >
                 <span>{stat2}</span>
@@ -230,26 +232,26 @@ export const ImpactSection: React.FC<{ isDarkMode?: boolean }> = () => {
               </div>
 
               {/* Label */}
-              <h3 className="text-lg md:text-xl font-semibold tracking-tight text-[var(--impact-text-primary)] mb-2">
+              <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-[var(--impact-text-primary)] mb-2">
                 Faster Regression
               </h3>
 
               {/* Muted Editorial Description */}
-              <p className="text-sm text-[var(--impact-text-secondary)] leading-relaxed">
+              <p className="text-sm md:text-base text-[var(--impact-text-secondary)] leading-relaxed">
                 Reduced feedback turnaround via multi-threaded NUnit execution grids and
                 parallelized headless browser runners.
               </p>
             </div>
 
             {/* Micro hairline hover indicator */}
-            <div className="w-6 h-0.5 bg-[var(--impact-accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-6" />
+            <div className="w-8 h-0.5 bg-[#2563eb] opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-6" />
           </div>
         </div>
 
-        {/* STAT 3: Defect Containment Drop (3.5 Columns) */}
+        {/* STAT 3: Defect Containment Drop (3 of 3 Equal Columns) */}
         <div
           style={{ transitionDelay: prefersReducedMotion ? "0ms" : "240ms" }}
-          className={`md:col-span-4 md:col-start-9 py-8 md:py-12 md:pl-8 border-t md:border-t-0 border-[var(--impact-hairline)] impact-cubic transition-all duration-[700ms] group cursor-default ${
+          className={`py-8 md:py-12 md:pl-8 impact-cubic transition-all duration-[700ms] group cursor-default ${
             isVisible || prefersReducedMotion
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-6"
@@ -259,7 +261,7 @@ export const ImpactSection: React.FC<{ isDarkMode?: boolean }> = () => {
             <div>
               {/* Tabular Metric: 100 -> 5 Drop (Neutral High Contrast) */}
               <div
-                className="text-5xl md:text-6xl font-sans font-extrabold tracking-tight tabular-nums leading-none text-[var(--impact-text-primary)] mb-4 will-change-transform"
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-sans font-extrabold tracking-tight tabular-nums leading-none text-[var(--impact-text-primary)] mb-4 will-change-transform"
                 aria-hidden="true"
               >
                 <span className="text-[0.75em] font-bold mr-0.5 opacity-70">&lt;</span>
@@ -268,19 +270,19 @@ export const ImpactSection: React.FC<{ isDarkMode?: boolean }> = () => {
               </div>
 
               {/* Label */}
-              <h3 className="text-lg md:text-xl font-semibold tracking-tight text-[var(--impact-text-primary)] mb-2">
+              <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-[var(--impact-text-primary)] mb-2">
                 Defect Leakage
               </h3>
 
               {/* Muted Editorial Description */}
-              <p className="text-sm text-[var(--impact-text-secondary)] leading-relaxed">
+              <p className="text-sm md:text-base text-[var(--impact-text-secondary)] leading-relaxed">
                 Escapes contained below threshold through shift-left schema verification,
                 contract testing, and rigorous release gatekeeping.
               </p>
             </div>
 
             {/* Micro hairline hover indicator */}
-            <div className="w-6 h-0.5 bg-[var(--impact-accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-6" />
+            <div className="w-8 h-0.5 bg-[#2563eb] opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-6" />
           </div>
         </div>
       </div>

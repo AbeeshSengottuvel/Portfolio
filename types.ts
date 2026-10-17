@@ -19,6 +19,7 @@ export interface SkillSubGroup {
 export interface ExpertiseGroup {
   id: string;
   title: string;
+  plainTitle?: string;
   descriptor: string;
   icon: "build" | "brain" | "code" | "database" | "groups";
   iconAccent?: "blue" | "amber";

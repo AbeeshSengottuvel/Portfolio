@@ -52,6 +52,7 @@ import {
 } from "./constants";
 import profilePic from "./Asset/Profile pic.jpeg";
 import { TechnicalExpertise } from "./TechnicalExpertise";
+import { ImpactSection } from "./ImpactSection";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -605,59 +606,7 @@ const App: React.FC = () => {
         </section>
 
         {/* Impact Section */}
-        <section className="py-12 md:py-20 scroll-mt-20" id="impact">
-          <ScrollRevealTitle
-            title="Impact by the Numbers"
-            className="text-3xl md:text-6xl lg:text-7xl font-display font-black mb-3 md:mb-4 tracking-tighter"
-            lineClassName="w-16 md:w-24 h-1.5 md:h-2"
-          />
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6"
-          >
-            {[
-              { icon: FlaskConical, value: "110+", label: "Test cases automated" },
-              { icon: Clock, value: "40%", label: "Faster regression cycles" },
-              { icon: ShieldCheck, value: "15%", label: "Fewer defects reaching production" },
-            ].map(({ icon: Icon, value, label }) => (
-              <motion.div
-                key={label}
-                variants={itemVariants}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              >
-                <SpotlightCard
-                  isDarkMode={isDarkMode}
-                  className={`p-6 md:p-8 rounded-2xl md:rounded-[2.5rem] border shadow-sm hover:shadow-xl transition-all h-full ${
-                    isDarkMode
-                      ? "bg-white/5 border-white/5"
-                      : "bg-white border-black/5"
-                  }`}
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.15, rotate: 6 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                    className="w-9 h-9 md:w-11 md:h-11 rounded-xl md:rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center mb-4 cursor-default shadow-sm shadow-blue-500/10"
-                  >
-                    <Icon className="w-5 h-5" aria-hidden="true" />
-                  </motion.div>
-                  <p className="text-3xl md:text-5xl font-display font-black tracking-tighter mb-1">
-                    <Counter value={value} />
-                  </p>
-                  <p
-                    className={`text-sm md:text-base font-medium ${
-                      isDarkMode ? "text-slate-400" : "text-slate-500"
-                    }`}
-                  >
-                    {label}
-                  </p>
-                </SpotlightCard>
-              </motion.div>
-            ))}
-          </motion.div>
-        </section>
+        <ImpactSection isDarkMode={isDarkMode} />
 
         {/* Skills Section - Technical Expertise */}
         <TechnicalExpertise />

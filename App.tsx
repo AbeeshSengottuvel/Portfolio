@@ -621,13 +621,15 @@ const App: React.FC = () => {
 
           <div className="relative space-y-12 md:space-y-20">
             {/* Seamless gradient connector line that grows on scroll */}
-            <motion.div
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              className="origin-top absolute left-3 md:left-8 -translate-x-1/2 top-4 md:top-6 bottom-0 w-0.5 md:w-1 bg-gradient-to-b from-[#2563eb] via-[#2563eb]/50 to-transparent rounded-full z-0"
-            />
+            <div className="absolute left-3 md:left-8 -translate-x-1/2 top-5 md:top-6 bottom-0 w-0.5 md:w-1 z-0 pointer-events-none">
+              <motion.div
+                initial={{ scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full h-full origin-top bg-gradient-to-b from-[#2563eb] via-[#2563eb]/50 to-transparent rounded-full"
+              />
+            </div>
 
             {EXPERIENCES.map((exp, idx) => (
               <motion.div
@@ -638,17 +640,20 @@ const App: React.FC = () => {
                 transition={{ delay: idx * 0.2 }}
                 className="relative pl-10 md:pl-24"
               >
-                <motion.div
-                  whileHover={{ scale: 1.25 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                  className={`absolute left-0 md:left-4 top-2 w-6 h-6 md:w-8 md:h-8 rounded-full border-2 md:border-4 z-10 transition-colors ${
-                    isDarkMode ? "border-[#0a0c10]" : "border-[#f0f4f8]"
-                  } ${
-                    exp.active
-                      ? "bg-[#2563eb] ring-4 md:ring-8 ring-[#2563eb]/20 shadow-lg shadow-[#2563eb]/30 animate-pulse"
-                      : "bg-slate-400 dark:bg-slate-700"
-                  }`}
-                />
+                {/* Timeline Dot Anchor - perfectly aligned with timeline connector line */}
+                <div className="absolute left-3 md:left-8 -translate-x-1/2 top-2 z-10 flex items-center justify-center pointer-events-none">
+                  <motion.div
+                    whileHover={{ scale: 1.25 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                    className={`pointer-events-auto w-6 h-6 md:w-8 md:h-8 rounded-full border-2 md:border-4 transition-colors ${
+                      isDarkMode ? "border-[#0a0c10]" : "border-[#f0f4f8]"
+                    } ${
+                      exp.active
+                        ? "bg-[#2563eb] ring-4 md:ring-8 ring-[#2563eb]/20 shadow-lg shadow-[#2563eb]/30 animate-pulse"
+                        : "bg-slate-400 dark:bg-slate-700"
+                    }`}
+                  />
+                </div>
 
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-3 md:mb-4 gap-2 md:gap-4">
                   <h3 className="text-xl md:text-3xl lg:text-4xl font-bold font-display tracking-tight leading-tight">

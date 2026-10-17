@@ -1,0 +1,429 @@
+/* TechnicalExpertise.css - Apple Web Team Polish */
+
+:root {
+  --skills-card-bg: #ffffff;
+  --skills-card-border: rgba(15, 23, 42, 0.08);
+  --skills-card-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 12px 32px -16px rgba(15, 23, 42, 0.1);
+  --skills-card-radius: 24px;
+  --skills-text-primary: #0f172a;
+  --skills-text-muted: #5b6478; /* 5.86:1 contrast ratio against #ffffff */
+  --skills-chip-bg: rgba(15, 23, 42, 0.04);
+  --skills-chip-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+  --skills-chip-text: #0f172a;
+  --skills-accent-blue: #2563eb;
+  --skills-icon-blue-bg: rgba(37, 99, 235, 0.08);
+  --skills-icon-blue-color: #2563eb;
+  --skills-icon-amber-bg: rgba(217, 119, 6, 0.1);
+  --skills-icon-amber-color: #d97706;
+}
+
+.dark {
+  --skills-card-bg: #0d111a;
+  --skills-card-border: rgba(255, 255, 255, 0.08);
+  --skills-card-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 12px 32px -16px rgba(0, 0, 0, 0.5);
+  --skills-text-primary: #f8fafc;
+  --skills-text-muted: #94a3b8;
+  --skills-chip-bg: rgba(255, 255, 255, 0.05);
+  --skills-chip-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --skills-chip-text: #f1f5f9;
+  --skills-icon-blue-bg: rgba(59, 130, 246, 0.15);
+  --skills-icon-blue-color: #60a5fa;
+  --skills-icon-amber-bg: rgba(245, 158, 11, 0.15);
+  --skills-icon-amber-color: #fbbf24;
+}
+
+/* Base Container: max-width 1200px, centered, equal padding */
+.skills-section {
+  width: 100%;
+  padding: 64px 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.skills-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  box-sizing: border-box;
+}
+
+/* Heading & Accent Bar */
+.skills-heading-container {
+  margin-bottom: 48px;
+  text-align: left;
+}
+
+.skills-heading {
+  margin: 0;
+  font-family: inherit;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--skills-text-primary);
+}
+
+.skills-accent-bar {
+  width: 64px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--skills-accent-blue);
+  margin-top: 20px;
+}
+
+/* 12-Column Grid Layout: row 1 (8+4), row 2 (4+4+4) */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.skills-card-span-8 {
+  grid-column: span 8;
+}
+
+.skills-card-span-4 {
+  grid-column: span 4;
+}
+
+/* Card Motion: Entrance Fade & Slide (Fires Once via IntersectionObserver) */
+.skills-card-wrapper {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 500ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: calc(var(--card-index, 0) * 60ms);
+  height: 100%;
+}
+
+.skills-section.is-visible .skills-card-wrapper {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Card Surface: Flat, Crisp, Non-Interactive */
+.skills-card {
+  background-color: var(--skills-card-bg);
+  border: 1px solid var(--skills-card-border);
+  box-shadow: var(--skills-card-shadow);
+  border-radius: var(--skills-card-radius);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Header: Exactly 44px tile + single-line title + single-line descriptor */
+.skills-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  min-height: 44px;
+  max-height: 44px;
+  margin-bottom: 24px;
+  box-sizing: border-box;
+}
+
+.skills-icon-tile {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.skills-icon-tile-blue {
+  background-color: var(--skills-icon-blue-bg);
+  color: var(--skills-icon-blue-color);
+}
+
+.skills-icon-tile-amber {
+  background-color: var(--skills-icon-amber-bg);
+  color: var(--skills-icon-amber-color);
+}
+
+.skills-header-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  gap: 2px;
+}
+
+.skills-card-title {
+  margin: 0;
+  font-family: inherit;
+  font-size: 1.1875rem; /* 19px, fits all headers with zero truncation at 1280px */
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--skills-text-primary);
+  white-space: nowrap;
+}
+
+.skills-card-descriptor {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--skills-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: balance;
+}
+
+/* Card Body */
+.skills-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Subgroups (UI & API / Frameworks & runners) */
+.skills-subgroup {
+  margin-bottom: 24px;
+}
+
+.skills-subgroup:last-child {
+  margin-bottom: 0;
+}
+
+.skills-subgroup-title {
+  margin: 0 0 12px 0;
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 600;
+  color: var(--skills-text-muted);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Chip List */
+.skills-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Chip Surface: Flat fill, inset hairline, 36px height, no hover, min 15px text */
+.skills-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 14px 0 10px;
+  border-radius: 10px;
+  gap: 8px;
+  background-color: var(--skills-chip-bg);
+  box-shadow: var(--skills-chip-shadow);
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--skills-chip-text);
+  cursor: default;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* Primary Flag: Weight 600 + 6px Blue Dot Before Icon */
+.skills-chip-primary {
+  font-weight: 600;
+}
+
+.skills-primary-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #2563eb;
+  flex-shrink: 0;
+}
+
+/* 20x20 Icon Box with optical sizing */
+.skills-icon-box {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.skills-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.skills-icon-opt-java {
+  transform: scale(1.15);
+}
+
+.skills-icon-opt-maven {
+  transform: scale(1.18);
+}
+
+.skills-icon-opt-windsurf {
+  transform: scale(1.12);
+  border-radius: 3px;
+}
+
+/* AI Card: 3 Stacked Full-Width Rows (56px tall, 12px radius) */
+.skills-ai-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.skills-ai-row {
+  height: 56px;
+  border-radius: 12px;
+  background-color: var(--skills-chip-bg);
+  box-shadow: var(--skills-chip-shadow);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.skills-ai-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.skills-ai-name {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--skills-chip-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.skills-ai-caption {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--skills-text-muted);
+}
+
+/* QA Practices List: 6px Blue Dots Aligned to x-Height, 12px Gap */
+.skills-practice-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skills-practice-item {
+  position: relative;
+  padding-left: 18px;
+  font-size: 0.9375rem; /* 15px */
+  line-height: 1.45;
+  color: var(--skills-text-muted);
+}
+
+.skills-practice-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em; /* Aligned to x-height */
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--skills-accent-blue);
+  transform: translateY(-50%);
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+/* 640px - 999px: Automation & AI full width, row 2 two-up with last full width */
+@media (min-width: 640px) and (max-width: 999px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .skills-card-span-8,
+  .skills-card-span-4 {
+    grid-column: span 1;
+  }
+
+  .skills-card-span-8 {
+    grid-column: span 2;
+  }
+
+  .skills-card-ai {
+    grid-column: span 2;
+  }
+
+  .skills-card-practices {
+    grid-column: span 2;
+  }
+}
+
+/* <640px: Single column, 24px padding, h2 min 2.25rem */
+@media (max-width: 639px) {
+  .skills-section {
+    padding: 48px 0;
+  }
+
+  .skills-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .skills-heading-container {
+    margin-bottom: 32px;
+  }
+
+  .skills-heading {
+    font-size: clamp(2.25rem, 8vw, 3rem);
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .skills-card-span-8,
+  .skills-card-span-4,
+  .skills-card-ai,
+  .skills-card-practices {
+    grid-column: span 1;
+  }
+
+  .skills-card {
+    padding: 24px;
+    border-radius: 20px;
+  }
+}
+
+/* Accessibility: Honor prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .skills-card-wrapper {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

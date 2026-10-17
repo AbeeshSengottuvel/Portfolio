@@ -41,6 +41,7 @@ import {
   Rocket,
   Bug,
   Handshake,
+  Sparkles,
 } from "lucide-react";
 import {
   SKILL_CATEGORIES,
@@ -50,9 +51,7 @@ import {
   SOCIAL_LINKS,
 } from "./constants";
 import profilePic from "./Asset/Profile pic.jpeg";
-
-
-
+import { TechnicalExpertise } from "./TechnicalExpertise";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -660,115 +659,8 @@ const App: React.FC = () => {
           </motion.div>
         </section>
 
-        {/* Skills Section - Larger Skill Chips */}
-        <section id="skills" className="py-12 md:py-20 scroll-mt-20">
-          <ScrollRevealTitle
-            title="Technical Expertise"
-            className="text-3xl md:text-6xl lg:text-7xl font-display font-black mb-3 md:mb-4 tracking-tighter"
-            lineClassName="w-16 md:w-24 h-1.5 md:h-2"
-          />
-
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6"
-          >
-            {SKILL_CATEGORIES.map((category, idx) => (
-              <motion.div
-                key={category.title}
-                variants={itemVariants}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              >
-                <SpotlightCard
-                  isDarkMode={isDarkMode}
-                  className={`p-6 md:p-8 rounded-2xl md:rounded-[2.5rem] border transition-all shadow-sm hover:shadow-xl h-full ${
-                    idx < 4
-                      ? "border-l-4 border-l-blue-600/40"
-                      : "border-l-4 border-l-indigo-500/40"
-                  } ${
-                    isDarkMode
-                      ? "bg-white/5 border-white/5"
-                      : "bg-white border-black/5"
-                  }`}
-                >
-                  <div className="flex items-center gap-4 md:gap-5 mb-5 md:mb-7">
-                    <motion.div
-                      whileHover={{ scale: 1.15, rotate: 6 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                      className="w-9 h-9 md:w-11 md:h-11 rounded-xl md:rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0 cursor-default shadow-sm shadow-blue-500/10"
-                    >
-                      {category.icon === "code" && (
-                        <Code size={20} className="md:size-[24px]" />
-                      )}
-                      {category.icon === "database" && (
-                        <Database size={20} className="md:size-[24px]" />
-                      )}
-                      {category.icon === "psychology" && (
-                        <Cpu size={20} className="md:size-[24px]" />
-                      )}
-                      {category.icon === "build" && (
-                        <Wrench size={20} className="md:size-[24px]" />
-                      )}
-                      {category.icon === "groups" && (
-                        <Users size={20} className="md:size-[24px]" />
-                      )}
-                      {category.icon === "brain" && (
-                        <Brain size={20} className="md:size-[24px]" />
-                      )}
-                    </motion.div>
-                    <h3 className="text-lg md:text-xl lg:text-2xl font-bold font-display tracking-tight">
-                      {category.title}
-                    </h3>
-                  </div>
-                  <div className="flex flex-wrap gap-2.5 md:gap-4">
-                    {category.skills.map((skill) => {
-                      const ProcessIcon = PROCESS_ICONS[skill.name];
-                      return (
-                        <motion.div
-                          key={skill.name}
-                          whileHover={{
-                            scale: 1.08,
-                            y: -3,
-                            boxShadow: isDarkMode
-                              ? "0 8px 20px -4px rgba(59, 130, 246, 0.25)"
-                              : "0 8px 20px -4px rgba(37, 99, 235, 0.18)",
-                          }}
-                          whileTap={{ scale: 0.95 }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 400,
-                            damping: 17,
-                          }}
-                          className={`flex items-center gap-2.5 md:gap-3 px-4 py-2 md:px-6 md:py-3 rounded-xl md:rounded-2xl text-xs md:text-sm font-bold transition-colors border cursor-default select-none ${
-                            isDarkMode
-                              ? "bg-white/5 border-white/5 text-slate-300 hover:border-blue-500/40 hover:text-white"
-                              : "bg-slate-50 border-black/5 text-slate-700 hover:border-blue-500/40 hover:text-blue-600 shadow-sm"
-                          }`}
-                        >
-                          {ProcessIcon ? (
-                            <ProcessIcon
-                              className="w-4 h-4 md:w-5 md:h-5 text-blue-500"
-                              aria-hidden="true"
-                            />
-                          ) : skill.icon ? (
-                            <img
-                              src={skill.icon}
-                              alt={skill.name}
-                              className="w-4 h-4 md:w-5 md:h-5 object-contain"
-                            />
-                          ) : null}
-                          {skill.name}
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                </SpotlightCard>
-              </motion.div>
-            ))}
-          </motion.div>
-        </section>
+        {/* Skills Section - Technical Expertise */}
+        <TechnicalExpertise />
 
         {/* Experience Section */}
         <section id="experience" className="py-20 md:py-32 scroll-mt-20">

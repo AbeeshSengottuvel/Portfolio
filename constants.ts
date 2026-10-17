@@ -1,4 +1,4 @@
-import { SkillCategory, Experience, Education } from "./types";
+import { SkillCategory, Experience, Education, ExpertiseGroup } from "./types";
 
 export const RESUME_URL = `${import.meta.env.BASE_URL}assets/resume.pdf`;
 
@@ -10,9 +10,236 @@ export const SOCIAL_LINKS = {
   phone: "tel:+919047722626",
 };
 
+export const EXPERTISE_GROUPS: ExpertiseGroup[] = [
+  {
+    id: "test-automation",
+    title: "Test Automation",
+    descriptor: "UI and API testing, end to end",
+    icon: "build",
+    iconAccent: "blue",
+    gridClass: "skills-card-span-8",
+    subGroups: [
+      {
+        label: "UI & API",
+        skills: [
+          {
+            name: "Selenium",
+            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/selenium/selenium-original.svg",
+            primary: false,
+          },
+          {
+            name: "Playwright",
+            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/playwright/playwright-original.svg",
+            primary: false,
+          },
+          {
+            name: "Postman",
+            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg",
+            primary: false,
+          },
+          {
+            name: "RestSharp",
+            icon: "https://restsharp.dev/img/restsharp.png",
+            primary: false,
+          },
+        ],
+      },
+      {
+        label: "Frameworks & runners",
+        skills: [
+          {
+            name: "TestNG",
+            icon: "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/qtest/qtest-original.svg",
+            primary: false,
+          },
+          {
+            name: "NUnit",
+            icon: "https://nunit.org/img/nunit.svg",
+            primary: false,
+          },
+          {
+            name: "Cucumber",
+            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg",
+            primary: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "ai-testing",
+    title: "AI-Assisted Testing",
+    descriptor: "Faster test writing and debugging",
+    icon: "brain",
+    iconAccent: "amber",
+    gridClass: "skills-card-span-4",
+    skills: [
+      {
+        name: "Claude",
+        caption: "Test design and debugging",
+        icon: "https://cdn.simpleicons.org/claude/D97706",
+        primary: false,
+      },
+      {
+        name: "GitHub Copilot",
+        caption: "Inline code completion",
+        icon: "https://cdn.simpleicons.org/githubcopilot",
+        primary: false,
+      },
+      {
+        name: "Windsurf",
+        caption: "Agentic coding in the IDE",
+        icon: "https://yt3.googleusercontent.com/6kLNxjLW3OREYdL7Y_sAzCuolXAmQkjJZVTCAch3Q_-hGZ2049wD2PSTFTfi9M8Iqh0PpxgChjU=s160-c-k-c0x00ffffff-no-rj",
+        primary: false,
+      },
+    ],
+  },
+  {
+    id: "languages-ides",
+    title: "Languages & IDEs",
+    descriptor: "Where the test code gets written",
+    icon: "code",
+    iconAccent: "blue",
+    gridClass: "skills-card-span-4",
+    skills: [
+      {
+        name: "Java",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+        primary: false,
+      },
+      {
+        name: "C#",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg",
+        primary: false,
+      },
+      {
+        name: "JavaScript",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
+        primary: false,
+      },
+      {
+        name: "VS Code",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+        primary: false,
+      },
+      {
+        name: "Eclipse",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eclipse/eclipse-original.svg",
+        primary: false,
+      },
+    ],
+  },
+  {
+    id: "cicd-management",
+    title: "CI/CD & Test Management",
+    descriptor: "Pipelines, source control, tracking",
+    icon: "database",
+    iconAccent: "blue",
+    gridClass: "skills-card-span-4",
+    skills: [
+      {
+        name: "Git",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+        primary: false,
+      },
+      {
+        name: "GitHub",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+        primary: false,
+      },
+      {
+        name: "Azure DevOps",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azuredevops/azuredevops-original.svg",
+        primary: false,
+      },
+      {
+        name: "Jenkins",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg",
+        primary: false,
+      },
+      {
+        name: "Maven",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg",
+        primary: false,
+      },
+      {
+        name: "QTest",
+        icon: "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/qtest/qtest-original.svg",
+        primary: false,
+      },
+    ],
+  },
+  {
+    id: "qa-practices",
+    title: "QA Practices",
+    descriptor: "How I work inside sprint teams",
+    icon: "groups",
+    iconAccent: "blue",
+    gridClass: "skills-card-span-4 skills-card-practices",
+    practices: [
+      "Test case design & execution",
+      "Defect analysis & reporting",
+      "Agile sprint-based QA delivery",
+      "Cross-functional teamwork",
+    ],
+  },
+];
+
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
-    title: "Programming & Test Development Languages",
+    title: "Test Automation & API Engineering",
+    icon: "build",
+    skills: [
+      {
+        name: "Selenium",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/selenium/selenium-original.svg",
+      },
+      {
+        name: "Playwright",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/playwright/playwright-original.svg",
+      },
+      {
+        name: "Postman",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg",
+      },
+      {
+        name: "RestSharp",
+        icon: "https://restsharp.dev/img/restsharp.png",
+      },
+      {
+        name: "TestNG",
+        icon: "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/qtest/qtest-original.svg",
+      },
+      {
+        name: "Cucumber",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg",
+      },
+      {
+        name: "NUnit",
+        icon: "https://nunit.org/img/nunit.svg",
+      },
+    ],
+  },
+  {
+    title: "AI-Assisted Test Automation",
+    icon: "brain",
+    skills: [
+      {
+        name: "Claude",
+        icon: "https://cdn.simpleicons.org/claude/D97706",
+      },
+      {
+        name: "GitHub Copilot",
+        icon: "https://cdn.simpleicons.org/githubcopilot",
+      },
+      {
+        name: "Windsurf",
+        icon: "https://yt3.googleusercontent.com/6kLNxjLW3OREYdL7Y_sAzCuolXAmQkjJZVTCAch3Q_-hGZ2049wD2PSTFTfi9M8Iqh0PpxgChjU=s160-c-k-c0x00ffffff-no-rj",
+      },
+    ],
+  },
+  {
+    title: "Programming & Test Development",
     icon: "code",
     skills: [
       {
@@ -23,30 +250,10 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
         name: "C#",
         icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg",
       },
-    ],
-  },
-  {
-    title: "Test Automation & API Engineering",
-    icon: "build",
-    skills: [
       {
-        name: "Selenium",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/selenium/selenium-original.svg",
+        name: "JavaScript",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
       },
-      {
-        name: "Postman",
-        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg",
-      },
-      { name: "RestSharp", icon: "https://restsharp.dev/img/restsharp.png" },
-      {
-        name: "TestNG",
-        icon: "https://i.pinimg.com/736x/b1/c5/07/b1c50720d7c59caff5660adbe3e0f9a9.jpg",
-      },
-      {
-        name: "Cucumber",
-        icon: "https://icon.icepanel.io/Technology/svg/Cucumber.svg",
-      },
-      { name: "NUnit", icon: "https://nunit.org/img/nunit.svg" },
     ],
   },
   {
@@ -58,8 +265,8 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
         icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg",
       },
       {
-        name: "QTest",
-        icon: "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/qtest/qtest-original.svg",
+        name: "Azure DevOps",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azuredevops/azuredevops-original.svg",
       },
       {
         name: "Git",
@@ -73,20 +280,14 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
         name: "Maven",
         icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg",
       },
-    ],
-  },
-  {
-    title: "AI-Assisted Test Automation",
-    icon: "brain",
-    skills: [
       {
-        name: "Windsurf",
-        icon: "https://yt3.googleusercontent.com/6kLNxjLW3OREYdL7Y_sAzCuolXAmQkjJZVTCAch3Q_-hGZ2049wD2PSTFTfi9M8Iqh0PpxgChjU=s160-c-k-c0x00ffffff-no-rj",
+        name: "QTest",
+        icon: "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/qtest/qtest-original.svg",
       },
     ],
   },
   {
-    title: "Development & Debugging Environment",
+    title: "Development & Debugging Tools",
     icon: "psychology",
     skills: [
       {
@@ -99,7 +300,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       },
       {
         name: "GitHub",
-        icon: "https://cdn-icons-png.flaticon.com/256/25/25231.png",
+        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
       },
     ],
   },

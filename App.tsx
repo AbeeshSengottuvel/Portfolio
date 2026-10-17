@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import Lenis from "lenis";
 import {
   motion,
   AnimatePresence,
@@ -6,7 +7,6 @@ import {
   useTransform,
   useInView,
   animate,
-  useReducedMotion,
 } from "framer-motion";
 import {
   Menu,
@@ -23,7 +23,6 @@ import {
   Mail,
   Phone,
   MapPin,
-  Send,
   Moon,
   Sun,
   ChevronRight,
@@ -51,47 +50,8 @@ import {
   SOCIAL_LINKS,
 } from "./constants";
 import profilePic from "./Asset/Profile pic.jpeg";
-import { FigmaCursor } from "./FigmaCursor";
 
-const CloudBackground = ({ isDarkMode }: { isDarkMode: boolean }) => {
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          initial={{
-            x: Math.random() * 100 - 50 + "%",
-            y: Math.random() * 100 - 50 + "%",
-            scale: Math.random() * 1 + 0.5,
-            opacity: 0,
-          }}
-          animate={{
-            x: [
-              Math.random() * 100 - 50 + "%",
-              Math.random() * 100 - 50 + "%",
-              Math.random() * 100 - 50 + "%",
-            ],
-            y: [
-              Math.random() * 100 - 50 + "%",
-              Math.random() * 100 - 50 + "%",
-              Math.random() * 100 - 50 + "%",
-            ],
-            rotate: [0, 180, 360],
-            opacity: isDarkMode ? [0.03, 0.1, 0.03] : [0.08, 0.2, 0.08],
-          }}
-          transition={{
-            duration: 25 + Math.random() * 30,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className={`absolute w-[400px] h-[400px] md:w-[600px] md:h-[600px] blur-[80px] md:blur-[120px] rounded-full ${
-            i % 2 === 0 ? "bg-blue-500" : "bg-indigo-400"
-          }`}
-        />
-      ))}
-    </div>
-  );
-};
+
 
 
 const containerVariants = {
@@ -166,6 +126,35 @@ const Counter: React.FC<{ value: string }> = ({ value }) => {
   );
 };
 
+const ScrollRevealTitle: React.FC<{
+  title: string;
+  className?: string;
+  lineClassName?: string;
+}> = ({ title, className = "", lineClassName = "w-16 md:w-24 h-1.5 md:h-2" }) => {
+  return (
+    <div className="mb-8 md:mb-12 text-center md:text-left">
+      <div className="overflow-hidden py-1">
+        <motion.h2
+          initial={{ y: 40, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className={className}
+        >
+          {title}
+        </motion.h2>
+      </div>
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+        className={`origin-left ${lineClassName} bg-blue-600 rounded-full mx-auto md:mx-0`}
+      />
+    </div>
+  );
+};
+
 const SpotlightCard: React.FC<{
   children: React.ReactNode;
   className?: string;
@@ -218,9 +207,31 @@ const App: React.FC = () => {
     return false;
   });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const lenisRef = useRef<Lenis | null>(null);
+  const { scrollY, scrollYProgress } = useScroll();
+  const heroTextY = useTransform(scrollY, [0, 500], [0, -45]);
+  const heroPhotoY = useTransform(scrollY, [0, 500], [0, 35]);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.2,
+    });
+    lenisRef.current = lenis;
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    const rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -231,12 +242,6 @@ const App: React.FC = () => {
       localStorage.setItem("theme", "light");
     }
   }, [isDarkMode]);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
@@ -255,20 +260,15 @@ const App: React.FC = () => {
     href: string
   ) => {
     e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-      setIsMenuOpen(false);
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(href, { offset: -80 });
+    } else {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
+    setIsMenuOpen(false);
   };
 
   return (
@@ -277,68 +277,110 @@ const App: React.FC = () => {
         isDarkMode ? "bg-[#0a0c10] text-white" : "bg-white text-slate-900"
       }`}
     >
-      <CloudBackground isDarkMode={isDarkMode} />
-      <FigmaCursor />
-
       {/* Global Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-blue-400 z-[120] origin-left"
         style={{ scaleX: scrollYProgress }}
       />
 
-      {/* Navigation */}
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? isDarkMode
-              ? "bg-[#0a0c10]/80 backdrop-blur-2xl shadow-2xl py-2 md:py-3 border-b border-white/5"
-              : "bg-white/80 backdrop-blur-2xl shadow-lg py-2 md:py-3 border-b border-black/5"
-            : "bg-transparent py-4 md:py-5"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-5 md:px-6 flex items-center justify-between">
-          <a
-            href="#home"
-            onClick={(e) => scrollToSection(e, "#home")}
-            className="flex items-center gap-2 md:gap-3 group cursor-pointer relative rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+      {/* Navigation - 3-Island Floating Pill Design (Inspired by Reference) */}
+      <header className="fixed top-0 left-0 right-0 z-50 px-3 md:px-8 pt-3 md:pt-5 pointer-events-none transition-all duration-300">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+          
+          {/* Left Pill: Availability & Brand */}
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="pointer-events-auto shrink-0"
           >
-            <div className="absolute inset-0 bg-blue-500/30 blur-lg rounded-full scale-125 animate-pulse group-hover:bg-blue-400 transition-colors"></div>
-            <div className="relative w-9 h-9 md:w-11 md:h-11 bg-blue-600 rounded-lg md:rounded-xl flex items-center justify-center text-white shadow-2xl shadow-blue-500/50 group-hover:rotate-[360deg] transition-transform duration-700 ease-out">
-              <Terminal size={18} className="md:size-[22px] relative z-10" />
-            </div>
-            <span className="font-display font-bold text-xl md:text-2xl tracking-tighter group-hover:text-blue-500 transition-colors">
-              Abeesh S.
-            </span>
-          </a>
+            <a
+              href="#home"
+              onClick={(e) => scrollToSection(e, "#home")}
+              className={`flex items-center gap-2.5 px-4 py-2 sm:py-2.5 rounded-full border shadow-sm transition-all hover:scale-105 active:scale-95 ${
+                isDarkMode
+                  ? "bg-[#11141c]/90 border-white/10 text-white shadow-black/40"
+                  : "bg-white/95 border-slate-200/90 text-slate-800 shadow-slate-900/5 hover:border-slate-300"
+              }`}
+            >
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span className="text-xs sm:text-sm font-semibold tracking-tight">
+                available for opportunities
+              </span>
+            </a>
+          </motion.div>
 
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Center Pill: Main Navigation Links with Integrated Dark Contact Button */}
+          <motion.nav
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className={`hidden md:flex pointer-events-auto items-center gap-1 lg:gap-1.5 px-2 py-1.5 rounded-full border shadow-md transition-all ${
+              isDarkMode
+                ? "bg-[#11141c]/90 border-white/10 text-slate-300 shadow-black/40"
+                : "bg-white/95 border-slate-200/90 text-slate-700 shadow-slate-900/5"
+            }`}
+          >
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
                 onClick={(e) => scrollToSection(e, item.href)}
-                className={`text-sm font-bold transition-all hover:text-blue-600 hover:scale-105 rounded-md px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${
-                  isDarkMode ? "text-slate-400" : "text-slate-600"
+                className={`text-xs lg:text-sm font-semibold px-3.5 lg:px-4 py-1.5 rounded-full transition-all hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100/80 dark:hover:bg-white/5 ${
+                  isDarkMode ? "text-slate-300" : "text-slate-600"
                 }`}
               >
                 {item.name}
               </a>
             ))}
+
+            {/* Embedded Dark Capsule Contact Button */}
             <a
               href="#contact"
               onClick={(e) => scrollToSection(e, "#contact")}
-              className="bg-blue-600 hover:bg-blue-500 text-white px-7 py-2.5 rounded-xl font-bold text-sm transition-all hover:shadow-2xl hover:shadow-blue-600/40 active:scale-95 border border-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              className={`ml-1 px-4 lg:px-5 py-1.5 lg:py-2 rounded-full font-bold text-xs lg:text-sm transition-all hover:scale-105 active:scale-95 shadow-sm ${
+                isDarkMode
+                  ? "bg-white text-slate-900 hover:bg-slate-100"
+                  : "bg-[#111827] text-white hover:bg-black"
+              }`}
             >
-              Contact Me
+              Contact
             </a>
+          </motion.nav>
+
+          {/* Right Pill: Direct Email & Theme Toggle */}
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="pointer-events-auto flex items-center gap-2"
+          >
+            <a
+              href={SOCIAL_LINKS.email}
+              aria-label="Send email"
+              className={`hidden lg:flex items-center gap-2 px-4 py-2 sm:py-2.5 rounded-full border shadow-sm transition-all hover:scale-105 active:scale-95 ${
+                isDarkMode
+                  ? "bg-[#11141c]/90 border-white/10 text-slate-300 hover:text-white shadow-black/40"
+                  : "bg-white/95 border-slate-200/90 text-slate-700 hover:text-slate-900 shadow-slate-900/5 hover:border-slate-300"
+              }`}
+            >
+              <Mail size={15} className="text-orange-500 shrink-0" />
+              <span className="text-xs font-semibold tracking-tight">
+                abeeshsengottuvel12@gmail.com
+              </span>
+            </a>
+
+            {/* Dark Mode Toggle Pill */}
             <button
               onClick={toggleDarkMode}
               aria-label="Toggle dark mode"
-              className={`p-2.5 rounded-xl transition-all hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${
+              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border shadow-sm transition-all hover:scale-105 active:scale-95 ${
                 isDarkMode
-                  ? "bg-white/5 text-yellow-400"
-                  : "bg-black/5 text-blue-600"
+                  ? "bg-[#11141c]/90 border-white/10 text-amber-400 hover:bg-white/10 shadow-black/40"
+                  : "bg-white/95 border-slate-200/90 text-slate-700 hover:bg-slate-50 shadow-slate-900/5 hover:border-slate-300"
               }`}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -349,42 +391,27 @@ const App: React.FC = () => {
                   exit={{ rotate: 90, opacity: 0, scale: 0.7 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+                  {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
                 </motion.div>
               </AnimatePresence>
             </button>
-          </div>
 
-          <div className="flex items-center gap-2 md:hidden">
+            {/* Mobile Menu Button */}
             <button
-              onClick={toggleDarkMode}
-              aria-label="Toggle dark mode"
-              className={`p-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${
-                isDarkMode ? "bg-white/5 text-yellow-400" : "bg-black/5 text-blue-600"
+              className={`md:hidden p-2 rounded-full border shadow-sm ${
+                isDarkMode
+                  ? "bg-[#11141c]/90 border-white/10 text-white"
+                  : "bg-white/95 border-slate-200/90 text-slate-800"
               }`}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={isDarkMode ? "sun-m" : "moon-m"}
-                  initial={{ rotate: -90, opacity: 0, scale: 0.7 }}
-                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                  exit={{ rotate: 90, opacity: 0, scale: 0.7 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-                </motion.div>
-              </AnimatePresence>
-            </button>
-            <button
-              className="p-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
-          </div>
+          </motion.div>
+
         </div>
-      </nav>
+      </header>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -441,15 +468,12 @@ const App: React.FC = () => {
           className="pt-24 pb-12 md:pt-40 md:pb-24 lg:pt-48 lg:pb-32 flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-12 items-center"
         >
           <motion.div
+            style={{ y: heroTextY }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
             className="flex flex-col gap-4 md:gap-6 items-center md:items-start text-center md:text-left order-2 md:order-1"
           >
-            <div className="flex items-center gap-2 text-blue-500 font-semibold tracking-[0.15em] uppercase text-[9px] md:text-[10px] bg-blue-500/10 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-blue-500/20">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping"></span>
-              Available for New Opportunities
-            </div>
             <motion.h1
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
@@ -499,15 +523,14 @@ const App: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Profile Image */}
+          {/* Profile Image with subtle parallax */}
           <motion.div
+            style={{ y: heroPhotoY }}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] as const }}
             className="relative flex justify-center order-1 md:order-2 w-full max-w-[280px] sm:max-w-[340px] md:max-w-none"
           >
-            <div className="absolute inset-0 bg-blue-600/15 blur-[40px] md:blur-[80px] lg:blur-[120px] rounded-full animate-pulse"></div>
-
             <motion.div
               animate={{
                 y: [0, -8, 0],
@@ -517,7 +540,7 @@ const App: React.FC = () => {
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className={`relative z-10 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[420px] lg:h-[420px] blob-shape overflow-hidden border-4 md:border-6 lg:border-8 ${
+              className={`relative z-10 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[420px] lg:h-[420px] blob-shape blob-morph overflow-hidden border-4 md:border-6 lg:border-8 ${
                 isDarkMode ? "border-white/5" : "border-white"
               } shadow-2xl transition-all hover:scale-[1.02] duration-1000 group`}
             >
@@ -584,12 +607,11 @@ const App: React.FC = () => {
 
         {/* Impact Section */}
         <section className="py-12 md:py-20 scroll-mt-20" id="impact">
-          <div className="mb-8 md:mb-12 text-center md:text-left">
-            <h2 className="text-3xl md:text-6xl lg:text-7xl font-display font-black mb-3 md:mb-4 tracking-tighter">
-              Impact by the Numbers
-            </h2>
-            <div className="w-16 md:w-24 h-1.5 md:h-2 bg-blue-600 rounded-full mx-auto md:mx-0" />
-          </div>
+          <ScrollRevealTitle
+            title="Impact by the Numbers"
+            className="text-3xl md:text-6xl lg:text-7xl font-display font-black mb-3 md:mb-4 tracking-tighter"
+            lineClassName="w-16 md:w-24 h-1.5 md:h-2"
+          />
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -640,12 +662,11 @@ const App: React.FC = () => {
 
         {/* Skills Section - Larger Skill Chips */}
         <section id="skills" className="py-12 md:py-20 scroll-mt-20">
-          <div className="mb-8 md:mb-12 text-center md:text-left">
-            <h2 className="text-3xl md:text-6xl lg:text-7xl font-display font-black mb-3 md:mb-4 tracking-tighter">
-              Technical Expertise
-            </h2>
-            <div className="w-16 md:w-24 h-1.5 md:h-2 bg-blue-600 rounded-full mx-auto md:mx-0"></div>
-          </div>
+          <ScrollRevealTitle
+            title="Technical Expertise"
+            className="text-3xl md:text-6xl lg:text-7xl font-display font-black mb-3 md:mb-4 tracking-tighter"
+            lineClassName="w-16 md:w-24 h-1.5 md:h-2"
+          />
 
           <motion.div
             variants={containerVariants}
@@ -751,16 +772,21 @@ const App: React.FC = () => {
 
         {/* Experience Section */}
         <section id="experience" className="py-20 md:py-32 scroll-mt-20">
-          <div className="mb-12 md:mb-20 text-center md:text-left">
-            <h2 className="text-3xl md:text-7xl font-display font-black mb-4 md:mb-6 tracking-tighter">
-              Experience
-            </h2>
-            <div className="w-20 md:w-32 h-1.5 md:h-2 bg-blue-600 rounded-full mx-auto md:mx-0"></div>
-          </div>
+          <ScrollRevealTitle
+            title="Experience"
+            className="text-3xl md:text-7xl font-display font-black mb-4 md:mb-6 tracking-tighter"
+            lineClassName="w-20 md:w-32 h-1.5 md:h-2"
+          />
 
           <div className="relative space-y-12 md:space-y-20">
-            {/* Seamless gradient connector line from milestone node */}
-            <div className="absolute left-3 md:left-8 -translate-x-1/2 top-4 md:top-6 bottom-0 w-0.5 md:w-1 bg-gradient-to-b from-blue-600 via-blue-500/60 to-transparent rounded-full z-0" />
+            {/* Seamless gradient connector line that grows on scroll */}
+            <motion.div
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="origin-top absolute left-3 md:left-8 -translate-x-1/2 top-4 md:top-6 bottom-0 w-0.5 md:w-1 bg-gradient-to-b from-blue-600 via-blue-500/60 to-transparent rounded-full z-0"
+            />
 
             {EXPERIENCES.map((exp, idx) => (
               <motion.div
@@ -842,12 +868,11 @@ const App: React.FC = () => {
 
         {/* Education Section */}
         <section id="education" className="py-20 scroll-mt-20">
-          <div className="mb-12 md:mb-20 text-center md:text-left">
-            <h2 className="text-3xl md:text-7xl font-display font-black mb-4 md:mb-6 tracking-tighter">
-              Education & Credentials
-            </h2>
-            <div className="w-20 md:w-32 h-1.5 md:h-2 bg-blue-600 rounded-full mx-auto md:mx-0"></div>
-          </div>
+          <ScrollRevealTitle
+            title="Education & Credentials"
+            className="text-3xl md:text-7xl font-display font-black mb-4 md:mb-6 tracking-tighter"
+            lineClassName="w-20 md:w-32 h-1.5 md:h-2"
+          />
 
           <div className="grid gap-4 md:gap-6">
             {EDUCATION_LIST.map((edu, idx) => (
@@ -856,6 +881,7 @@ const App: React.FC = () => {
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 className={`p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] border flex flex-col sm:flex-row items-center gap-4 sm:gap-8 ${
                   isDarkMode
                     ? "bg-white/5 border-white/5"
@@ -924,19 +950,21 @@ const App: React.FC = () => {
                 : "bg-white border-black/5"
             }`}
           >
-            {/* Background blur circle */}
-            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/10 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
-
             <div className="relative z-10 max-w-6xl mx-auto">
               {/* Header */}
               <div className="mb-16 md:mb-20 text-center lg:text-left">
                 {/* 3. Apply Item Variants to Header Elements */}
-                <motion.h2
-                  variants={itemVariants}
-                  className="text-5xl md:text-7xl lg:text-8xl font-display font-black tracking-tighter leading-none mb-6"
-                >
-                  Get In Touch
-                </motion.h2>
+                <div className="overflow-hidden py-1 mb-6">
+                  <motion.h2
+                    initial={{ y: 40, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-5xl md:text-7xl lg:text-8xl font-display font-black tracking-tighter leading-none"
+                  >
+                    Get In Touch
+                  </motion.h2>
+                </div>
                 <motion.p
                   variants={itemVariants}
                   className={`text-xl md:text-2xl font-medium max-w-2xl leading-relaxed ${
@@ -1034,7 +1062,7 @@ const App: React.FC = () => {
                           href={item.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`text-base md:text-lg font-semibold break-words transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${
+                          className={`text-base md:text-lg font-semibold break-all sm:break-words transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${
                             isDarkMode
                               ? "text-white hover:text-blue-400"
                               : "text-slate-900 hover:text-blue-600"

@@ -1,6 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Abeesh S - QA Engineer | Test Automation & API Engineering</title>
+    <meta
+      name="description"
+      content="Abeesh Sengottuvel — Quality Assurance Engineer specializing in test automation, API engineering, and delivering dependable software systems. Based in Chennai, India."
+    />
+    <meta name="author" content="Abeesh Sengottuvel" />
+    <meta
+      name="keywords"
+      content="QA Engineer, Test Automation, Selenium, API Testing, Software Quality, Abeesh Sengottuvel"
+    />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Abeesh S - QA Engineer | Test Automation & API Engineering"
+    />
+    <meta
+      property="og:description"
+      content="Quality Assurance Engineer specializing in robust test automation, API engineering, and delivering dependable software systems."
+    />
+    <meta property="og:url" content="https://abeeshsengottuvel.github.io/Portfolio/" />
+
+    <!-- Favicon — use a lightweight static icon instead of a 57KB GIF -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"
+      type="image/svg+xml"
+    />
+
+    <!-- Preconnect to font origins for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google Analytics — loaded async, non-blocking -->
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-H76YD5E179"
@@ -11,42 +52,14 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-H76YD5E179");
     </script>
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Abeesh S - QA Engineer</title>
-    <link
-      rel="icon"
-      href="/Asset/system-solid-160-trending-up-hover-trend-up.gif"
-      type="image/gif"
-    />
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Inter", "sans-serif"],
-              display: ["Space Grotesk", "sans-serif"],
-            },
-          },
-        },
-      };
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
     <style>
+      /* Critical CSS — inlined for instant first paint */
       body {
         font-family: "Inter", sans-serif;
+        margin: 0;
       }
 
       .font-display {
@@ -61,24 +74,33 @@
         scroll-behavior: smooth;
       }
 
-      @media (pointer: fine) {
-        body.has-custom-cursor,
-        body.has-custom-cursor * {
-          cursor: none !important;
+      /* Skeleton loader shown while JS loads */
+      #root:empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: #0a0c10;
+      }
+      #root:empty::after {
+        content: "";
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(59, 130, 246, 0.2);
+        border-top-color: #3b82f6;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      @media (prefers-color-scheme: light) {
+        #root:empty {
+          background: #ffffff;
         }
       }
     </style>
-    <script type="importmap">
-      {
-        "imports": {
-          "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-          "react/": "https://esm.sh/react@^19.2.3/",
-          "react": "https://esm.sh/react@^19.2.3",
-          "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
-          "framer-motion": "https://esm.sh/framer-motion@^12.23.26"
-        }
-      }
-    </script>
   </head>
 
   <body>
